@@ -5,7 +5,7 @@ const AparmentStep = () => {
         <section className="flex flex-col items-center">
             <div className="flex flex-col gap-2 text-center">
                 <h2 className="text-4xl md:text-5xl font-semibold">Select Your Apartment</h2>
-                <p className="text-muted-foreground max-w-md">
+                <p className="text-muted-foreground max-w-xl">
                     Find the perfect sanctuary for your stay in the city. Each space is curated for comfort and inspiration.
                 </p>
             </div>

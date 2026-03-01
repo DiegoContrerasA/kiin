@@ -16,141 +16,111 @@ const GuestForm = () => {
     return (
         <form>
             <FieldGroup>
-                <Controller
-                    name="name"
-                    control={form.control}
-                    render={({ field, fieldState }) => (
-                        <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel htmlFor="name">
-                                Name
-                            </FieldLabel>
-                            <Input
-                                {...field}
-                                id="name"
-                                className='h-12'
-                                aria-invalid={fieldState.invalid}
-                                placeholder="Name"
-                                autoComplete="off"
-                            />
-                            {fieldState.invalid && (
-                                <FieldError errors={[fieldState.error]} />
-                            )}
-                        </Field>
-                    )}
-                />
-                <Controller
-                    name="lastName"
-                    control={form.control}
-                    render={({ field, fieldState }) => (
-                        <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel htmlFor="lastName">
-                                Last Name
-                            </FieldLabel>
-                            <Input
-                                {...field}
-                                id="lastName"
-                                className='h-12'
-                                aria-invalid={fieldState.invalid}
-                                placeholder="Last Name"
-                                autoComplete="off"
-                            />
-                            {fieldState.invalid && (
-                                <FieldError errors={[fieldState.error]} />
-                            )}
-                        </Field>
-                    )}
-                />
-                <Controller
-                    name="documentType"
-                    control={form.control}
-                    render={({ field, fieldState }) => (
-                        <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel htmlFor="documentType">
-                                Document type
-                            </FieldLabel>
+                <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-4'>
+                    <Controller
+                        name="name"
+                        control={form.control}
+                        render={({ field, fieldState }) => (
+                            <Field data-invalid={fieldState.invalid}>
+                                <FieldLabel htmlFor="name">
+                                    Name
+                                </FieldLabel>
+                                <Input
+                                    {...field}
+                                    id="name"
+                                    className='h-12'
+                                    aria-invalid={fieldState.invalid}
+                                    placeholder="Name"
+                                    autoComplete="off"
+                                />
+                                {fieldState.invalid && (
+                                    <FieldError errors={[fieldState.error]} />
+                                )}
+                            </Field>
+                        )}
+                    />
+                    <Controller
+                        name="lastName"
+                        control={form.control}
+                        render={({ field, fieldState }) => (
+                            <Field data-invalid={fieldState.invalid}>
+                                <FieldLabel htmlFor="lastName">
+                                    Last Name
+                                </FieldLabel>
+                                <Input
+                                    {...field}
+                                    id="lastName"
+                                    className='h-12'
+                                    aria-invalid={fieldState.invalid}
+                                    placeholder="Last Name"
+                                    autoComplete="off"
+                                />
+                                {fieldState.invalid && (
+                                    <FieldError errors={[fieldState.error]} />
+                                )}
+                            </Field>
+                        )}
+                    />
+                </div>
+                <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-4'>
+                    <Controller
+                        name="documentType"
+                        control={form.control}
+                        render={({ field, fieldState }) => (
+                            <Field data-invalid={fieldState.invalid}>
+                                <FieldLabel htmlFor="documentType">
+                                    Document type
+                                </FieldLabel>
 
-                            <Select
-                                name={field.name}
-                                value={field.value}
-                                onValueChange={field.onChange}
-                            >
-                                <SelectTrigger
-                                    id="documentType"
-                                    aria-invalid={fieldState.invalid}
-                                    className="min-w-[120px] !h-12"
+                                <Select
+                                    name={field.name}
+                                    value={field.value}
+                                    onValueChange={field.onChange}
                                 >
-                                    <SelectValue placeholder="Select your Document type" />
-                                </SelectTrigger>
-                                <SelectContent position="item-aligned">
-                                    {DOCUMENT_OPTIONS.map((option) => (
-                                        <SelectItem key={option.value} value={option.value}>
-                                            {option.label}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                            {fieldState.invalid && (
-                                <FieldError errors={[fieldState.error]} />
-                            )}
-                        </Field>
-                    )}
-                />
-                <Controller
-                    name="documentNumber"
-                    control={form.control}
-                    render={({ field, fieldState }) => (
-                        <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel htmlFor="documentNumber">
-                                Document Number
-                            </FieldLabel>
-                            <Input
-                                {...field}
-                                id="documentNumber"
-                                className='h-12'
-                                aria-invalid={fieldState.invalid}
-                                placeholder="Document Number"
-                                autoComplete="off"
-                            />
-                            {fieldState.invalid && (
-                                <FieldError errors={[fieldState.error]} />
-                            )}
-                        </Field>
-                    )}
-                />
-                <Controller
-                    name="gender"
-                    control={form.control}
-                    render={({ field, fieldState }) => (
-                        <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel htmlFor="gender">
-                                Gender
-                            </FieldLabel>
-                             <Select
-                                name={field.name}
-                                value={field.value}
-                                onValueChange={field.onChange}
-                            >
-                                <SelectTrigger
-                                    id="documentType"
+                                    <SelectTrigger
+                                        id="documentType"
+                                        aria-invalid={fieldState.invalid}
+                                        className="min-w-[120px] !h-12"
+                                    >
+                                        <SelectValue placeholder="Select your Document type" />
+                                    </SelectTrigger>
+                                    <SelectContent position="item-aligned">
+                                        {DOCUMENT_OPTIONS.map((option) => (
+                                            <SelectItem key={option.value} value={option.value}>
+                                                {option.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                                {fieldState.invalid && (
+                                    <FieldError errors={[fieldState.error]} />
+                                )}
+                            </Field>
+                        )}
+                    />
+                    <Controller
+                        name="documentNumber"
+                        control={form.control}
+                        render={({ field, fieldState }) => (
+                            <Field data-invalid={fieldState.invalid}>
+                                <FieldLabel htmlFor="documentNumber">
+                                    Document Number
+                                </FieldLabel>
+                                <Input
+                                    {...field}
+                                    id="documentNumber"
+                                    className='h-12'
                                     aria-invalid={fieldState.invalid}
-                                    className="min-w-[120px] !h-12"
-                                >
-                                    <SelectValue placeholder="Select your gender" />
-                                </SelectTrigger>
-                                <SelectContent position="item-aligned">
-                                    {GENDER_OPTIONS.map((option) => (
-                                        <SelectItem key={option.value} value={option.value}>
-                                            {option.label}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                            {fieldState.invalid && (
-                                <FieldError errors={[fieldState.error]} />
-                            )}
-                        </Field>
-                    )}
-                />
+                                    placeholder="Document Number"
+                                    autoComplete="off"
+                                />
+                                {fieldState.invalid && (
+                                    <FieldError errors={[fieldState.error]} />
+                                )}
+                            </Field>
+                        )}
+                    />
+                </div>
                 <Controller
                     name="email"
                     control={form.control}
@@ -173,20 +143,80 @@ const GuestForm = () => {
                         </Field>
                     )}
                 />
+                <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-4'>
+                    <Controller
+                        name="gender"
+                        control={form.control}
+                        render={({ field, fieldState }) => (
+                            <Field data-invalid={fieldState.invalid}>
+                                <FieldLabel htmlFor="gender">
+                                    Gender
+                                </FieldLabel>
+                                <Select
+                                    name={field.name}
+                                    value={field.value}
+                                    onValueChange={field.onChange}
+                                >
+                                    <SelectTrigger
+                                        id="documentType"
+                                        aria-invalid={fieldState.invalid}
+                                        className="min-w-[120px] !h-12"
+                                    >
+                                        <SelectValue placeholder="Select your gender" />
+                                    </SelectTrigger>
+                                    <SelectContent position="item-aligned">
+                                        {GENDER_OPTIONS.map((option) => (
+                                            <SelectItem key={option.value} value={option.value}>
+                                                {option.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                                {fieldState.invalid && (
+                                    <FieldError errors={[fieldState.error]} />
+                                )}
+                            </Field>
+                        )}
+                    />
+
+                    <Controller
+                        name="phone"
+                        control={form.control}
+                        render={({ field, fieldState }) => (
+                            <Field data-invalid={fieldState.invalid}>
+                                <FieldLabel htmlFor="phone">
+                                    Phone
+                                </FieldLabel>
+                                <Input
+                                    {...field}
+                                    id="phone"
+                                    className='h-12'
+                                    aria-invalid={fieldState.invalid}
+                                    placeholder="Phone"
+                                    autoComplete="off"
+                                />
+                                {fieldState.invalid && (
+                                    <FieldError errors={[fieldState.error]} />
+                                )}
+                            </Field>
+                        )}
+                    />
+
+                </div>
                 <Controller
-                    name="phone"
+                    name="socialMediaProfile"
                     control={form.control}
                     render={({ field, fieldState }) => (
                         <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel htmlFor="phone">
-                                Phone
+                            <FieldLabel htmlFor="socialMediaProfile">
+                                Social Media Profile
                             </FieldLabel>
                             <Input
                                 {...field}
                                 id="phone"
                                 className='h-12'
                                 aria-invalid={fieldState.invalid}
-                                placeholder="Phone"
+                                placeholder="@"
                                 autoComplete="off"
                             />
                             {fieldState.invalid && (
