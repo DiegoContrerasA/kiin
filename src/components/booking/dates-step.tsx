@@ -21,7 +21,7 @@ const DateStep = () => {
                 </p>
             </div>
 
-            <div className="p-10  mb-10 w-full max-w-5xl flex flex-col gap-10 mt-10 shadow-[0_10px_40px_8px_rgba(0,0,0,0.05)]">
+            <div className="p-10 my-10  w-full max-w-5xl flex flex-col gap-10  shadow-[0_10px_40px_8px_rgba(0,0,0,0.05)]">
                 <Calendar
                     mode="range"
                     className="w-full sm:w-[95%] mx-auto"
