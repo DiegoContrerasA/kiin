@@ -2,8 +2,8 @@ import { addDays } from "date-fns"
 import { Calendar } from "@/components/ui/calendar"
 import { useState } from "react"
 import type { DateRange } from "react-day-picker"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
-import { Button } from "../ui/button"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Button } from "@/components/ui/button"
 import { CalendarDays } from "lucide-react"
 
 const DateStep = () => {

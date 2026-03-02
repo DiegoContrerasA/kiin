@@ -1,6 +1,5 @@
-import AparmentStep from "./components/booking/aparment-step"
+
 import DateStep from "./components/booking/dates-step"
-import SummaryStep from "./components/booking/summary-step"
 import AppLayout from "./layouts/app-layout"
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query"
 
@@ -22,7 +21,6 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <AppLayout>
         <DateStep />
-        <SummaryStep />
       </AppLayout>
     </QueryClientProvider>
   )

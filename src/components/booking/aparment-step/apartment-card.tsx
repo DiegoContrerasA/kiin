@@ -1,5 +1,5 @@
 import type { Room } from "@/interfaces/booking"
-import { Button } from "../ui/button"
+import { Button } from "@/components/ui/button"
 import { CDN_IMAGE_URL } from "@/config/constants"
 import { Maximize2 } from "lucide-react"
 

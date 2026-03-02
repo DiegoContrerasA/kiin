@@ -1,9 +1,9 @@
 import { Controller, useForm } from 'react-hook-form'
-import { Field, FieldError, FieldGroup, FieldLabel } from '../ui/field'
+import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field'
 import { defaultGuestSchema, GuestSchema } from '@/schemas/guest-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Input } from '../ui/input'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
+import { Input } from '@/components/ui/input'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { DOCUMENT_OPTIONS, GENDER_OPTIONS } from '@/config/select-lists'
 
 const GuestForm = () => {
