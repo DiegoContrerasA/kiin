@@ -2,8 +2,10 @@ import type { Room } from "@/interfaces/booking"
 import { Button } from "@/components/ui/button"
 import { CDN_IMAGE_URL } from "@/config/constants"
 import { Maximize2 } from "lucide-react"
-
-import { memo, useMemo } from "react";
+import { useMemo, memo } from "react"
+import { useSearchParams } from "react-router"
+import { differenceInDays } from "date-fns"
+import { useTRM } from "@/hooks/use-trm"
 
 interface AparmentCardProps {
     room: Room
@@ -14,10 +16,32 @@ const AparmentCard = ({
     room,
     onOpenLightbox
 }: AparmentCardProps) => {
+    const [searchParams] = useSearchParams()
+    const { data: trm = 3800, isLoading } = useTRM()
 
     const slides = useMemo(() => room.photos.map((photo) => ({
         src: `${CDN_IMAGE_URL}${photo}`,
     })), [room.photos]);
+
+    const totalPrice = useMemo(() => {
+        const checkIn = searchParams.get('checkIn')
+        const checkOut = searchParams.get('checkOut')
+
+        if (!checkIn || !checkOut) return null
+
+        const nights = differenceInDays(new Date(checkOut), new Date(checkIn))
+        const nightly = room.priceByNight || 0
+
+        const totalUsd = trm ? Math.round((nightly / trm) * nights) : 0
+        const base = Math.round(totalUsd / 2)
+        const price = nights < 19 ? base * 2 : base
+
+        return new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency: "USD",
+            maximumFractionDigits: 0
+        }).format(price)
+    }, [searchParams, room.priceByNight, trm])
 
     return (
         <>
@@ -36,6 +60,11 @@ const AparmentCard = ({
                     <h4 className="text-xl font-bold mb-2">{room.name}</h4>
 
                     <p className="line-clamp-3 text-muted-foreground">{room.description}</p>
+                    {isLoading ?
+                        <span className="bg-card w-24 h-8 rounded" /> :
+                        (
+                            <span className="text-lg font-semibold text-primary">{totalPrice ?? ''}</span>
+                        )}
                 </div>
                 <Button size="xl" variant="outline" className="hover:bg-primary hover:text-white transition-all duration-300" >
                     Select Room
