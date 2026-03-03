@@ -24,4 +24,4 @@ export const defaultGuestSchema = {
     socialMediaProfile: "",
 }
 
-export type Guest = z.infer<typeof GuestSchema>
+export type GuestSchemaValues = z.infer<typeof GuestSchema>

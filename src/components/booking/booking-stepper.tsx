@@ -1,14 +1,20 @@
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useLocation } from "react-router";
 
-const STEPS = ["Dates", "Apartment", "Summary", "Checkout", "Done"];
+const STEPS = ["/", "/apartments", "/summary"];
+const STEPS_LABELS = ["Dates", "Apartments", "Summary"];
 
 const BookingStepper = ({className}: {className?: string}) => {
-  const step = 1;
+   const {pathname} = useLocation()
+
+   console.log(pathname)
+
+   const step = STEPS.indexOf(pathname)
 
   return (
     <div className={cn("flex items-center justify-center gap-1 sm:gap-2 px-5", className)}>
-      {STEPS.map((label, i) => (
+      {STEPS_LABELS.map((label, i) => (
         <div key={label} className="flex items-center gap-1 sm:gap-2">
           <div className="flex flex-col items-center gap-1">
             <div

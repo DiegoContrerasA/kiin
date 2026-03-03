@@ -3,8 +3,9 @@ import BookingStepper from "@/components/booking/booking-stepper";
 import KiinLogo from "../assets/kiin-logo.png";
 import FacebookIcon from "../assets/icons/facebook";
 import InstagramIcon from "../assets/icons/instagram";
+import { Outlet } from "react-router";
 
-const AppLayout = ({ children }: { children: React.ReactNode }) => {
+const AppLayout = () => {
     return (
         <div className="flex flex-col min-h-dvh">
             <header className="flex justify-center p-5">
@@ -12,7 +13,7 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
             </header>
             <main className="flex-1 border-y border-border px-5 py-10">
                 <BookingStepper className="mb-12" />
-                {children}
+                <Outlet />
             </main>
             <footer className="px-5 py-10 flex flex-col items-center bg-foreground gap-4 text-white/50">
                 <img className="w-16 brightness-0 invert" src={KiinLogo} alt="Kiin Logo" />
