@@ -1,7 +1,7 @@
 import type { Room } from "@/interfaces/booking"
 import { Button } from "@/components/ui/button"
 import { CDN_IMAGE_URL } from "@/config/constants"
-import { Maximize2 } from "lucide-react"
+import { BedDouble, Maximize2, Toilet } from "lucide-react"
 import { useMemo, memo } from "react"
 import { useSearchParams } from "react-router"
 import { differenceInDays } from "date-fns"
@@ -23,13 +23,16 @@ const AparmentCard = ({
         src: `${CDN_IMAGE_URL}${photo}`,
     })), [room.photos]);
 
+      const nights = useMemo(() => {
+         const checkOut = searchParams.get('checkOut')
+         const checkIn = searchParams.get('checkIn')
+         if (!checkIn || !checkOut) return null
+        return differenceInDays(new Date(checkOut), new Date(checkIn))
+      }, [searchParams])
+
     const totalPrice = useMemo(() => {
-        const checkIn = searchParams.get('checkIn')
-        const checkOut = searchParams.get('checkOut')
+        if(!nights) return null
 
-        if (!checkIn || !checkOut) return null
-
-        const nights = differenceInDays(new Date(checkOut), new Date(checkIn))
         const nightly = room.priceByNight || 0
 
         const totalUsd = trm ? Math.round((nightly / trm) * nights) : 0
@@ -41,7 +44,7 @@ const AparmentCard = ({
             currency: "USD",
             maximumFractionDigits: 0
         }).format(price)
-    }, [searchParams, room.priceByNight, trm])
+    }, [room.priceByNight, trm, nights, ])
 
     return (
         <>
@@ -60,10 +63,17 @@ const AparmentCard = ({
                     <h4 className="text-xl font-bold mb-2">{room.name}</h4>
 
                     <p className="line-clamp-3 text-muted-foreground">{room.description}</p>
-                    {isLoading ?
+                   
+                </div>               
+                <div className="flex justify-between border-t border-muted-foreground/50 pt-4">
+                     <div className="flex gap-4 text-muted-foreground text-sm font-semibold">
+                   <span className="flex gap-2 items-center"><BedDouble className="size-4" />{room.roomCount?.[0] ?? 1}</span>
+                   <span className="flex gap-2 items-center"><Toilet className="size-4" />{room.bathroomCount?.[0] ?? 1}</span>
+                </div>
+                     {isLoading ?
                         <span className="bg-card w-24 h-8 rounded" /> :
                         (
-                            <span className="text-lg font-semibold text-primary">{totalPrice ?? ''}</span>
+                            <p className="text-lg font-bold text-primary">{totalPrice ?? ''}<span className="text-muted-foreground text-sm"> / {nights} nights</span></p>
                         )}
                 </div>
                 <Button size="xl" variant="outline" className="hover:bg-primary hover:text-white transition-all duration-300" >

@@ -1,4 +1,7 @@
+import { buttonVariants } from "@/components/ui/button"
 import AparmentLists from "./aparment-lists"
+import { Link} from 'react-router'
+import { ArrowLeft } from "lucide-react"
 
 const AparmentStep = () => {
     return (
@@ -14,6 +17,11 @@ const AparmentStep = () => {
                 <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <AparmentLists />
                 </section>
+            </div>
+            <div>
+                <Link to='/' className={buttonVariants({size: 'xl', variant: 'outline', className: 'w-full max-w-2xs'})}>
+                   <ArrowLeft /> Go back
+                </Link>
             </div>
         </section>
     )

@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { GUEST_OPTIONS } from "@/config/select-lists"
 import { Calendar } from "@/components/ui/calendar"
-import { CalendarDays } from "lucide-react"
+import { ArrowRight, CalendarDays } from "lucide-react"
 import { useState } from "react"
 import type { DateRange } from "react-day-picker"
 import { format, differenceInDays, isSameDay } from "date-fns"
@@ -38,7 +38,7 @@ const DatesForm = () => {
         navigate(`/apartments?checkIn=${format(range.from, "yyyy-MM-dd")}&checkOut=${format(range.to, "yyyy-MM-dd")}&guests=${guests}`)
     }
 
-    const disabledButton = range?.from && range?.to && isSameDay(range?.from, range?.to)
+    const disabledButton = !range?.from || !range?.to || isSameDay(range?.from, range?.to)
 
     return (
         <form onSubmit={onSubmit} className="p-10 my-10  w-full max-w-5xl flex flex-col gap-10  shadow-[0_10px_40px_8px_rgba(0,0,0,0.05)]">
@@ -95,7 +95,7 @@ const DatesForm = () => {
                             ))}
                         </SelectContent>
                     </Select>
-                    <Button size="xl" disabled={disabledButton}>Search</Button>
+                    <Button size="xl" disabled={disabledButton}>Continue <ArrowRight /></Button>
                 </div>
             </div>
         </form>
