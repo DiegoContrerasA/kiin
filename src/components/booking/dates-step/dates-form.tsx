@@ -5,15 +5,18 @@ import { Calendar } from "@/components/ui/calendar"
 import { ArrowRight, CalendarDays } from "lucide-react"
 import { useState } from "react"
 import type { DateRange } from "react-day-picker"
-import { format, differenceInDays, isSameDay } from "date-fns"
+import { differenceInDays, isSameDay } from "date-fns"
 import { toast } from "react-toastify"
 import { useNavigate } from "react-router"
+import { useBooking } from "@/provider/booking-provider"
+import { formatDate } from "@/lib/dates"
 
 
 const DatesForm = () => {
 
-    const [range, setRange] = useState<DateRange | undefined>(undefined)
-    const [guests, setGuests] = useState<string>("2")
+    const { roomSearchParams, setRoomSearchParams } = useBooking()
+    const [range, setRange] = useState<DateRange | undefined>(() => roomSearchParams.range)
+    const [guests, setGuests] = useState<string>(() => roomSearchParams.guests || "2")
 
     const navigate = useNavigate()
 
@@ -35,7 +38,8 @@ const DatesForm = () => {
             return
         }
 
-        navigate(`/apartments?checkIn=${format(range.from, "yyyy-MM-dd")}&checkOut=${format(range.to, "yyyy-MM-dd")}&guests=${guests}`)
+        setRoomSearchParams({ range, guests })
+        navigate(`/apartments?checkIn=${formatDate(range.from)}&checkOut=${formatDate(range.to)}&guests=${guests}`)
     }
 
     const disabledButton = !range?.from || !range?.to || isSameDay(range?.from, range?.to)
@@ -64,7 +68,7 @@ const DatesForm = () => {
                         <p className="text-foreground">Check-in</p>
                         <div className="flex items-center gap-2">
                             <CalendarDays className="size-4 text-primary" />
-                            <span className="text-sm text-muted-foreground">{range?.from ? format(range?.from, "LLL dd, y") : "--"}</span>
+                            <span className="text-sm text-muted-foreground">{formatDate(range?.from, "LLL dd, y")}</span>
                         </div>
 
                     </div>
@@ -72,7 +76,7 @@ const DatesForm = () => {
                         <p className="text-foreground">Check-out</p>
                         <div className="flex items-center gap-2">
                             <CalendarDays className="size-4 text-primary" />
-                            <span className="text-sm text-muted-foreground">{range?.to ? format(range?.to, "LLL dd, y") : "--"}</span>
+                            <span className="text-sm text-muted-foreground">{formatDate(range?.to, "LLL dd, y")}</span>
                         </div>
                     </div>
                 </div>

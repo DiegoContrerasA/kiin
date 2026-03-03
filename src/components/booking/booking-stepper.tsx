@@ -1,6 +1,7 @@
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLocation } from "react-router";
+import { useEffect } from "react";
 
 const STEPS = ["/", "/apartments", "/summary"];
 const STEPS_LABELS = ["Dates", "Apartments", "Summary"];
@@ -11,6 +12,10 @@ const BookingStepper = ({className}: {className?: string}) => {
    console.log(pathname)
 
    const step = STEPS.indexOf(pathname)
+
+   useEffect(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+   }, [pathname])
 
   return (
     <div className={cn("flex items-center justify-center gap-1 sm:gap-2 px-5", className)}>

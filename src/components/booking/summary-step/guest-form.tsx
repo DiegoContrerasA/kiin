@@ -1,20 +1,24 @@
 import { Controller, useForm } from 'react-hook-form'
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field'
-import { defaultGuestSchema, GuestSchema } from '@/schemas/guest-schema'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { DOCUMENT_OPTIONS, GENDER_OPTIONS } from '@/config/select-lists'
+import { defaultGuestSchema, GuestSchema, type GuestSchemaValues } from '@/schemas/guest-schema'
+import { zodResolver } from '@hookform/resolvers/zod'
+import Summary from './summary'
 
 const GuestForm = () => {
-
     const form = useForm({
         defaultValues: defaultGuestSchema,
         resolver: zodResolver(GuestSchema)
     })
 
+    const onSubmit = (data: GuestSchemaValues) => {
+        console.log(data)
+    }
+
     return (
-        <form>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-[1fr_350px] gap-8">
             <FieldGroup>
                 <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-4'>
                     <Controller
@@ -226,7 +230,7 @@ const GuestForm = () => {
                     )}
                 />
             </FieldGroup>
-
+            <Summary />
         </form>
     )
 }

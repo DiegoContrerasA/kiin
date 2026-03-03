@@ -1,15 +1,15 @@
 import { z } from "zod"
 
 export const GuestSchema = z.object({
-    name: z.string().min(2, "Name must be at least 2 characters long"),
-    lastName: z.string().min(2, "Last name must be at least 2 characters long"),
-    documentType: z.string(),
-    documentNumber: z.string().min(2, "Document number must be at least 2 characters long"),
-    gender: z.string(),
-    email: z.email("Invalid email"),
-    phone: z.string().min(10, "Phone number must be at least 10 characters long"),
-    nationality: z.string().min(2, "Nationality must be at least 2 characters long"),
-    socialMediaProfile: z.string().url("Invalid URL"),
+    name: z.string().min(2, "Name is required."),
+    lastName: z.string().min(2, "Last name is required."),
+    documentType: z.string().min(1, "Document type is required."),
+    documentNumber: z.string().min(2, "Document number is required."),
+    gender: z.string().min(1, "Gender is required."),
+    email: z.email("Invalid email, please enter a valid email.").min(1, "Email is required."),
+    phone: z.string().min(10, "Phone number is required."),
+    nationality: z.string().min(2, "Nationality is required."),
+    socialMediaProfile: z.string().optional(),
 })
 
 export const defaultGuestSchema = {

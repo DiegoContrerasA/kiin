@@ -2,19 +2,22 @@
 import type { Room } from "@/interfaces/booking";
 import type { GuestSchemaValues } from "@/schemas/guest-schema";
 import { createContext, useContext, useState } from "react";
+import type { DateRange } from "react-day-picker";
+
 
 interface BookingState {
     room: Room | null
     roomSearchParams: {
-        startDate?: Date
-        endDate?: Date
+        range?: DateRange | undefined
         guests?: string
     }
     user?: GuestSchemaValues
+    nights?: number
+    totalPrice?: number
 }
 
 interface BookingContext extends BookingState {
-    setRoom: (room: Room) => void
+    setRoom: ({ room, nights, totalPrice }: { room: Room, nights?: number, totalPrice?: number }) => void
     setUser: (user: GuestSchemaValues) => void
     setRoomSearchParams: (roomSearchParams: BookingContext['roomSearchParams']) => void
     reset: () => void
@@ -23,11 +26,12 @@ interface BookingContext extends BookingState {
 const INITIAL_STATE: BookingState = {
     room: null,
     roomSearchParams: {
-        startDate: undefined,
-        endDate: undefined,
+       range: undefined,
         guests: undefined,
     },
     user: undefined,
+    nights: undefined,
+    totalPrice: undefined
 }
 
 const BookingContext = createContext<BookingContext>({
@@ -42,8 +46,8 @@ const BookingProvider = ({ children }: { children: React.ReactNode }) => {
 
     const [state, setState] = useState<BookingState>({ ...INITIAL_STATE })
 
-    const setRoom = (room: Room) => {
-        setState((prev) => ({ ...prev, room }))
+    const setRoom = ({ room, nights, totalPrice }: { room: Room, nights?: number, totalPrice?: number }) => {
+        setState((prev) => ({ ...prev, room, nights, totalPrice }))
     }
 
     const setUser = (user: GuestSchemaValues) => {

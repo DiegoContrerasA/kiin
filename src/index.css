@@ -27,7 +27,7 @@
   --muted-foreground: oklch(0.5560 0 0);
   --accent: oklch(0.8553 0.0191 100.1674);
   --accent-foreground: oklch(0.4011 0.0063 48.5612);
-  --destructive: oklch(0.5770 0.2450 27.3250);
+  --destructive: oklch(0.43 0.2450 27.3250);
   --destructive-foreground: oklch(1 0 0);
   --border: oklch(0.8145 0.0060 84.5695);
   --input: oklch(0.8145 0.0060 84.5695);
@@ -65,6 +65,7 @@
   --shadow-2xl: -50px -50px 0px -50px hsl(0 0% 0% / 0.00);
   --tracking-normal: 0em;
   --spacing: 0.25rem;
+  --toastify-color-error: var(--destructive);
 }
 
 .dark {
