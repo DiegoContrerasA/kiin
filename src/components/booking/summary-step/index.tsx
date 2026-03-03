@@ -1,7 +1,19 @@
 
+import { useBooking } from "@/provider/booking-provider"
 import GuestForm from "./guest-form"
+import { useEffect } from "react"
+import { useNavigate } from "react-router"
 
 const SummaryStep = () => {
+    const {room} = useBooking()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (!room) {
+             navigate('/')
+        }
+    }, [room, navigate])
+
     return (
         <section className="flex flex-col items-center">
             <div className="flex flex-col gap-2 text-center">

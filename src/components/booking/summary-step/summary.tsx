@@ -7,7 +7,7 @@ import { useBooking } from "@/provider/booking-provider"
 const Summary = () => {
 
     const { room,roomSearchParams, nights, totalPrice } = useBooking()
-
+    
     return (
         <section className="bg-foreground text-white/80">
             <picture className="relative">
