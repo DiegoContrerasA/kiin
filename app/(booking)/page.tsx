@@ -1,6 +1,7 @@
 import Apartments from "@/components/booking/search/aparments";
 import Disclaimer from "@/components/booking/search/disclaimer";
 import EmptySearch from "@/components/booking/search/empty";
+import RoomSkeleton from "@/components/booking/search/room-skeleton";
 import EmptyStateIcon from "@/components/icons/empty-state";
 import { Suspense } from "react";
 
@@ -24,7 +25,7 @@ export default async function Home({ searchParams }: HomeParams) {
   }
 
   return (
-    <Suspense key={JSON.stringify(params)} fallback={<div>Loading...</div>}>
+    <Suspense key={JSON.stringify(params)} fallback={<RoomSkeleton />}>
       <Apartments
         params={params}
       />

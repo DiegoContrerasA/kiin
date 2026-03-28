@@ -28,6 +28,7 @@ export interface Typology {
   _id: string;
   name: string;
   price: number;
+  priceByNight: number;
   description: string;
   photos: string[];
   roomCount: number[];
@@ -35,6 +36,9 @@ export interface Typology {
   squareMeters: number;
   typeOfBed: 'individual' | 'doble' | 'king' | 'queen';
   qtyFull: number;
+  priceInUsd?: number;
+  trm?: number;
+  nights?: number;
 }
 
 export interface TypologiesResponse {

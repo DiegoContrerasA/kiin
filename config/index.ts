@@ -3,7 +3,7 @@ const CONFIG = {
     PMS_BASE_URL: 'https://api.kiinliving.com/api/v1',
     TRM_BASE_URL: 'https://co.dolarapi.com/v1/trm',
     AUTO_CORE_BASE_URL: 'https://api-dev.autocore.pro/v2',
-    IMAGE_CDN_BASE_URL: 'https://cdn.kiinliving.com/images',
+    IMAGE_CDN_BASE_URL: 'https://cdn.kiinliving.com/images/lg',
     DB_PASSWORD: process.env.DB_PASSWORD,
     DB_NAME: process.env.DB_NAME,
     DB_USER: process.env.DB_USER,

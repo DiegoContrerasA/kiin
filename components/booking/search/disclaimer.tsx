@@ -2,7 +2,7 @@ import { Lightbulb } from "lucide-react"
 
 const Disclaimer = () => {
   return (
-    <div className="space-y-4">
+    <div className="space-y-2 w-full max-w-2xl mx-auto" >
       <div className=" border bg-brand/5  rounded-lg p-4">
         <div className="flex items-start gap-3">
           <span className="bg-brand/10 flex p-2 rounded-md">
