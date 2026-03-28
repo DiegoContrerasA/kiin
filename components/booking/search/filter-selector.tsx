@@ -45,14 +45,13 @@ const FilterSelector = () => {
   const onSearch = () => {
     if (!date?.from || !date?.to) return
     const query = `?checkIn=${format(date.from, "yyyy-MM-dd")}&checkOut=${format(date.to, "yyyy-MM-dd")}&adults=${adults}&children=${children}`
-    router.push(query)
-    router.refresh()
+    router.push(query, { scroll: true })
   }
 
   const disabled = !date?.from || !date?.to
 
   return (
-    <div className="w-full max-w-4xl p-2 shadow-2xs mx-auto items-center gap-4 bg-white rounded-lg hidden md:flex">
+    <div className="w-full max-w-4xl p-2 mx-auto items-center gap-4 bg-white rounded-lg hidden md:flex">
       <Field className="w-full">
         <Popover>
           <PopoverTrigger asChild className="flex flex-col">

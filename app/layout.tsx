@@ -49,7 +49,7 @@ export default function RootLayout({
         <header className="flex justify-center p-4">
           <Image src="/kiin-logo.png" alt="Kiin Logo" width={36} height={36} className="brightness-0" />
         </header>
-        <main className="flex-1 border-y border-border px-8 py-10">
+        <main className="flex-1 border-y border-border px-5 md:px-8 pt-10 pb-20">
           {children}
         </main>
         <footer className="px-5 py-10 flex flex-col items-center bg-foreground gap-4 text-white/50">

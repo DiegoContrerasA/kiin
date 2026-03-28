@@ -11,6 +11,9 @@ const CONFIG = {
     ACCESS_KEY: process.env.ACCESS_KEY,
     SECRET_KEY: process.env.SECRET_KEY,
     PMS_KEY: process.env.PMS_KEY,
+    PET_FEE: 30,
+    AIPOR_FEE: 100,
+
 };
 
 export default CONFIG;

@@ -39,6 +39,12 @@ export interface Typology {
   priceInUsd?: number;
   trm?: number;
   nights?: number;
+  search?: {
+    checkIn: string;
+    checkOut: string;
+    adults: string;
+    children: string;
+  };
 }
 
 export interface TypologiesResponse {

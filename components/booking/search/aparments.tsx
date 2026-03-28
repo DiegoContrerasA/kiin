@@ -15,15 +15,11 @@ interface ApartmentsProps {
 const Apartments = async ({ params }: ApartmentsProps) => {
     const  rooms = await getRoomsFromPMS(params);
 
-    if(!rooms?.typologies?.length) {
-        return <NoResults />
-    }
+    if(!rooms?.length) return <NoResults />
     return (
          <section className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto w-full">
            {
-            rooms.typologies.map((room) => (
-                <RoomCard key={room._id} room={room} />
-            ))
+            rooms.map((room) =><RoomCard key={room._id} room={room} />)
            }
         </section>
     )

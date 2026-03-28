@@ -2,8 +2,6 @@
 
 import { TypologiesResponse, Typology } from '@/types/room';
 import CONFIG from '../config';
-import { calculateNights, calculatePrice } from '@/lib/pms';
-import { getTRM } from './get-trm';
 
 interface GetRoomsParams {
     checkIn?: string;
@@ -12,30 +10,13 @@ interface GetRoomsParams {
     children?: string;
 }
 
-export const enrichRoomsWithPricing = async (
-    data: TypologiesResponse,
-    checkIn: string,
-    checkOut: string,
-    trm: number
-): Promise<TypologiesResponse> => {
-    if (!data.typologies) return data;
-
-    const nights = calculateNights({
-        checkIn,
-        checkOut
-    });
-
-    data.typologies = data.typologies.map((typology: Typology) => ({
-        ...typology,
-        priceInUsd: calculatePrice({
-            price: typology.priceByNight,
-            trm,
-            nights
-        }),
-        trm,
-        nights
-    }));
-
+const fetchAvailableRooms = async (params: GetRoomsParams) => {
+    const { checkIn, checkOut, adults, children } = params;
+    const response = await fetch(
+        `${CONFIG.PMS_BASE_URL}/room/available?dateStart=${checkIn}&dateEnd=${checkOut}&adults=${adults}&children=${children}`,
+        { next: { revalidate: 300 } }
+    );
+    const data: TypologiesResponse = await response.json();
     return data;
 };
 
@@ -44,21 +25,13 @@ export const getRoomsFromPMS = async ({
     checkOut,
     adults,
     children
-}: GetRoomsParams): Promise<TypologiesResponse | undefined> => {
+}: GetRoomsParams): Promise<Typology[] | undefined> => {
     if (!checkIn || !checkOut || !adults || !children) {
         return undefined;
     }
 
-    const [response, trm] = await Promise.all([
-        fetch(
-            `${CONFIG.PMS_BASE_URL}/room/available?dateStart=${checkIn}&dateEnd=${checkOut}&adults=${adults}&children=${children}`,
-            { cache: 'no-store' }
-        ),
-        getTRM()
-    ]);
-
-    const data: TypologiesResponse = await response.json();
-    return enrichRoomsWithPricing(data, checkIn, checkOut, trm);
+    const data = await fetchAvailableRooms({ checkIn, checkOut, adults, children });
+    return data?.typologies ?? [];
 };
 
 
