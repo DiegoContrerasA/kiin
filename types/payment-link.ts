@@ -40,3 +40,18 @@ export interface PaymentLinkResponse {
   message?: string;
   detail?: string;
 }
+
+export interface PaymentLinkResponseSuccess {
+  success: true;
+  data: {
+    url: string;
+  };
+}
+
+export interface PaymentLinkResponseError {
+  success: false;
+  error: string;
+  code?: string;
+}
+
+export type PaymentLinkResult = PaymentLinkResponseSuccess | PaymentLinkResponseError;
