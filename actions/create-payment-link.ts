@@ -1,9 +1,11 @@
 'use server';
 
 import CONFIG from '@/config';
+import { generateAuthToken } from '@/lib/auth';
 import { pool } from '@/lib/db';
 import { createReservation } from '@/lib/reservations';
 import { UserSchemaValues } from '@/schemas/summary.schema';
+import { getTRM } from '@/services/get-trm';
 import { PaymentLinkResponseError, PaymentLinkResponseSuccess } from '@/types/payment-link';
 import { Typology } from '@/types/room';
 
@@ -36,6 +38,10 @@ export async function createPaymentLink({
   const externalRefId = generateId('KIIN');
   const reservationId = generateId('BK');
 
+   const authToken = await generateAuthToken();
+  const trm = await getTRM();
+  const amountInCOP = totalAmount * trm;
+
   const payload = {
     source: CONFIG.SOURCE,
     hotel_id: CONFIG.HOTEL_ID,
@@ -43,7 +49,7 @@ export async function createPaymentLink({
     email: user.email,
     country_code: user.countryCode,
     phone: user.phone,
-    amount: totalAmount,
+    amount: amountInCOP,
     booking_dates: `${checkIn} - ${checkOut}`,
     description: `Reserva de ${room.name}`,
     available_hours: 24,
@@ -57,9 +63,12 @@ export async function createPaymentLink({
     },
   };
 
-  const connection = await pool.getConnection();
-  
+  let connection;
+
   try {
+    // 🔥 ahora sí queda protegido
+    connection = await pool.getConnection();
+
     await connection.beginTransaction();
 
     await connection.execute(
@@ -68,13 +77,15 @@ export async function createPaymentLink({
         reservationId,
         externalRefId,
         String(CONFIG.HOTEL_ID),
+        amountInCOP,
+        totalAmount,
         user.name,
         user.lastName,
         user.documentType,
         user.documentNumber,
         user.gender,
         user.email,
-        user.phone,
+        `${user.countryCode} ${user.phone}`,
         user.nationality,
         user.country,
         user.socialMediaProfile || null,
@@ -98,6 +109,7 @@ export async function createPaymentLink({
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Auth-Token': authToken,
         },
         body: JSON.stringify(payload),
         cache: 'no-store',
@@ -106,23 +118,13 @@ export async function createPaymentLink({
 
     const data = await response.json();
 
-    if (!response.ok) {
+    if (!response.ok || !data?.url) {
       await connection.rollback();
+      console.error('[createPaymentLink]', data);
       return {
         success: false,
-        error:
-          data?.message ||
-          `Payment link creation failed (${response.status})`,
+        error: 'We have problems creating your payment link, please try again later',
         code: 'API_ERROR',
-      };
-    }
-
-    if (!data?.id || !data?.url) {
-      await connection.rollback();
-      return {
-        success: false,
-        error: 'Invalid response from payment provider',
-        code: 'INVALID_RESPONSE',
       };
     }
 
@@ -134,19 +136,29 @@ export async function createPaymentLink({
         url: data.url,
       },
     };
+
   } catch (error) {
     console.error('[createPaymentLink]', error);
-    await connection.rollback();
+
+    // 🔥 solo hace rollback si existe conexión
+    if (connection) {
+      try {
+        await connection.rollback();
+      } catch (e) {
+        console.error('[rollback error]', e);
+      }
+    }
 
     return {
       success: false,
-      error:
-        error instanceof Error
-          ? error.message
-          : 'Unexpected error creating payment link',
-      code: 'UNKNOWN_ERROR',
+      error: 'Database connection error or unexpected issue',
+      code: 'DB_CONNECTION_ERROR',
     };
+
   } finally {
-    connection.release();
+    // 🔥 evita crasheo si nunca se creó
+    if (connection) {
+      connection.release();
+    }
   }
 }

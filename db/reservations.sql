@@ -24,13 +24,17 @@ CREATE TABLE IF NOT EXISTS reservations (
     
     -- Reservation details
     reservation_typology VARCHAR(255),
-    reservation_date_start DATE,
-    reservation_date_end DATE,
+    reservation_date_start VARCHAR(50),
+    reservation_date_end VARCHAR(50),
     reservation_adults INT DEFAULT 1,
     reservation_children INT DEFAULT 0,
     reservation_with_pet BOOLEAN DEFAULT FALSE,
     reservation_with_transfer BOOLEAN DEFAULT FALSE,
     reservation_special_request TEXT,
+    
+    -- Amount
+    amount_in_cop DECIMAL(15,2),
+    amount_in_usd DECIMAL(15,2),
     
     -- Payment data (updated via webhook)
     payment JSON,

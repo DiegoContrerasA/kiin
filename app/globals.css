@@ -55,6 +55,8 @@
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
 
+  --color-brand: var(--brand);
+
   --font-suisseIntl: 'suisseIntl', ui-sans-serif, system-ui, -apple-system;
  
 }

@@ -6,6 +6,8 @@ export interface ReservationRow extends RowDataPacket {
   reservation_id: string | null;
   external_ref_id: string;
   hotel_id: string | null;
+  amount_in_cop: number | null;
+  amount_in_usd: number | null;
   user_name: string | null;
   user_last_name: string | null;
   document_type: string | null;
@@ -36,6 +38,8 @@ export interface CreateReservationParams {
   reservation_id?: string;
   external_ref_id: string;
   hotel_id?: string;
+  amount_in_cop?: number;
+  amount_in_usd?: number;
   user_name?: string;
   user_last_name?: string;
   document_type?: string;
@@ -62,14 +66,14 @@ export interface CreateReservationParams {
 export  function createReservation(): string {
   return `
     INSERT INTO reservations (
-      reservation_id, external_ref_id, hotel_id,
+      reservation_id, external_ref_id, hotel_id, amount_in_cop, amount_in_usd,
       user_name, user_last_name, document_type, document_number, gender,
       email, phone, nationality, country, social_media_profile,
       airport_pickup, pet_fee, typology,
       reservation_typology, reservation_date_start, reservation_date_end,
       reservation_adults, reservation_children, reservation_with_pet,
       reservation_with_transfer, reservation_special_request
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 }
 

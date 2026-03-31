@@ -4,7 +4,7 @@ import { currencyFormat, getTotales } from "@/lib/mappers"
 import { useWatch } from "react-hook-form"
 import { Typology } from "@/types/room"
 
-const Summary = ({ selectedRoom }: { selectedRoom: Typology | null }) => {
+const Summary = ({ selectedRoom, isPending }: { selectedRoom: Typology | null, isPending: boolean }) => {
     
 
     const airportPickup = useWatch({ name: 'airportPickup' })
@@ -68,8 +68,8 @@ const Summary = ({ selectedRoom }: { selectedRoom: Typology | null }) => {
                     </div>
                 </div>
                 <div className="space-y-4">
-                    <Button size="xl" variant="light" type="submit" className="w-full hover:brightness-110 cursor-pointer">
-                        {false ? "PROCESSING..." : "BOOK NOW"}
+                    <Button disabled={isPending} size="xl" variant="light" type="submit" className="w-full hover:brightness-110 cursor-pointer">
+                        {isPending ? "PROCESSING..." : "BOOK NOW"}
                     </Button>
                     <a href="https://api.whatsapp.com/send?phone=573232230942&text=Hello%0AI%27m%20coming%20from%20the%20website" target="_blank" rel="noopener noreferrer" className={buttonVariants({ size: "xl", variant: "outline-brand", className: "w-full" })}>
                         CONTACT ADMIN
