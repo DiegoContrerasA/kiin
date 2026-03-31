@@ -1,7 +1,8 @@
 
 import NoResults from "./no-results";
-import { getRoomsFromPMS } from "@/actions/get-rooms";
+import { getRooms } from "@/actions/get-rooms";
 import RoomCard from "./room-card";
+import "yet-another-react-lightbox/styles.css";
 
 interface ApartmentsProps {
     params: {
@@ -13,7 +14,7 @@ interface ApartmentsProps {
 }
 
 const Apartments = async ({ params }: ApartmentsProps) => {
-    const  rooms = await getRoomsFromPMS(params);
+    const  rooms = await getRooms(params);
 
     if(!rooms?.length) return <NoResults />
     return (

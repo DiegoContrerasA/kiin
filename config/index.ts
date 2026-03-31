@@ -13,7 +13,9 @@ const CONFIG = {
     PMS_KEY: process.env.PMS_KEY,
     PET_FEE: 30,
     AIPOR_FEE: 100,
-
+    SOURCE: 'Contravia',
+    HOTEL_ID: 121,
+    PUBLIC_URL: process.env.NEXT_PUBLIC_BASE_URL,
 };
 
 export default CONFIG;

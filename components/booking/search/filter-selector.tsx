@@ -5,11 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Field } from "@/components/ui/field";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { format, parseISO } from "date-fns";
+import { format, parseISO, differenceInDays } from "date-fns";
 import { CalendarIcon, Search, UsersRound } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { DateRange } from "react-day-picker";
+import { toast } from "react-toastify";
 import Guests from "./guests";
 
 const FilterSelector = () => {
@@ -41,9 +42,15 @@ const FilterSelector = () => {
   })
 
 
-
   const onSearch = () => {
     if (!date?.from || !date?.to) return
+    
+    const nights = differenceInDays(date.to, date.from)
+    if (nights < 7) {
+      toast.error("Minimum stay is 7 nights")
+      return
+    }
+    
     const query = `?checkIn=${format(date.from, "yyyy-MM-dd")}&checkOut=${format(date.to, "yyyy-MM-dd")}&adults=${adults}&children=${children}`
     router.push(query, { scroll: true })
   }

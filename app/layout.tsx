@@ -3,6 +3,7 @@ import "./globals.css";
 import Image from "next/image";
 import FacebookIcon from "@/components/icons/facebook";
 import InstagramIcon from "@/components/icons/instagram";
+import { ToastContainer } from "react-toastify";
 
 export const metadata: Metadata = {
   title: "Reservations - Kiin Living - Coliving Medellín",
@@ -50,6 +51,7 @@ export default function RootLayout({
           <Image src="/kiin-logo.png" alt="Kiin Logo" width={36} height={36} className="brightness-0" />
         </header>
         <main className="flex-1 border-y border-border px-5 md:px-8 pt-10 pb-20">
+           <ToastContainer position="top-center" theme="colored" />
           {children}
         </main>
         <footer className="px-5 py-10 flex flex-col items-center bg-foreground gap-4 text-white/50">

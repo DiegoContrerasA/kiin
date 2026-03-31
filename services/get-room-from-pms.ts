@@ -1,0 +1,59 @@
+import { TypologiesResponse } from "@/types/room";
+import CONFIG from "../config";
+import { getTRM } from "./get-trm";
+import { calculateNights, calculatePrice } from "@/lib/pms";
+
+interface Params {
+    checkIn: string;
+    checkOut: string;
+    adults: string;
+    children: string;
+}
+
+export const fetchRoom = async (params: Params) => {
+    try {
+        const { checkIn, checkOut, adults, children } = params;
+        const response = await fetch(
+            `${CONFIG.PMS_BASE_URL}/room/available?dateStart=${checkIn}&dateEnd=${checkOut}&adults=${adults}&children=${children}`,
+            { next: { revalidate: 300 } }
+        );
+        const data: TypologiesResponse = await response.json();
+        if (!data?.typologies) return undefined
+        return data?.typologies
+
+    } catch (error) {
+        console.error(error);
+        return undefined;
+    }
+};
+
+export const getRoomFromPms = async (params: Params) => {
+    try {
+        const [data, trm] = await Promise.all([
+            fetchRoom(params),
+            getTRM()
+        ])
+
+        if (!data || !trm) return [];
+
+        const nights = calculateNights({
+            checkIn: params.checkIn || '',
+            checkOut: params.checkOut || ''
+        })
+
+        return data.map((room) => ({
+            ...room,
+            priceInUsd: calculatePrice({
+                price: room.priceByNight,
+                trm,
+                nights
+            }),
+            trm,
+            nights,
+            search: { ...params }
+        }));
+
+    } catch {
+        return []
+    }
+}

@@ -1,10 +1,7 @@
 import Apartments from "@/components/booking/search/aparments";
-import Disclaimer from "@/components/booking/search/disclaimer";
 import EmptySearch from "@/components/booking/search/empty";
 import RoomSkeleton from "@/components/booking/search/room-skeleton";
-import EmptyStateIcon from "@/components/icons/empty-state";
 import { Suspense } from "react";
-
 
 interface HomeParams {
   searchParams: Promise<{
@@ -14,8 +11,6 @@ interface HomeParams {
     children?: string;
   }>
 };
-
-export const dynamic = "force-dynamic";
 
 export default async function Home({ searchParams }: HomeParams) {
   const params = await searchParams;

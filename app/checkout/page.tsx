@@ -1,4 +1,4 @@
-import { getRoomByIdFromPMS } from "@/actions/get-room-by-id";
+import { getRoomById } from "@/actions/get-room-by-id";
 import SummaryForm from "@/components/booking/checkout/form";
 
 interface CheckoutPageProps {
@@ -14,7 +14,7 @@ interface CheckoutPageProps {
 const CheckoutPage = async (props: CheckoutPageProps) => {
 
   const searchParams = await props.searchParams;
-  const selectedRoom = await getRoomByIdFromPMS(searchParams);
+  const selectedRoom = await getRoomById(searchParams);
 
   return <SummaryForm selectedRoom={selectedRoom} />
 };

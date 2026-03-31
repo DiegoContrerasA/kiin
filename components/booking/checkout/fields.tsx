@@ -4,7 +4,7 @@ import { Controller, useWatch } from 'react-hook-form'
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { DOCUMENT_OPTIONS, GENDER_OPTIONS } from '@/config/data'
+import { COUNTRY_OPTIONS, DOCUMENT_OPTIONS, GENDER_OPTIONS } from '@/config/data'
 
 import { PhoneInput } from '@/components/ui/phone-input'
 
@@ -133,7 +133,8 @@ const Fields = () => {
                         )}
                     />
                 </div>
-                <Controller
+                <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-4'>
+                  <Controller
                     name="email"
                     control={form.control}
                     render={({ field, fieldState }) => (
@@ -154,7 +155,29 @@ const Fields = () => {
                             )}
                         </Field>
                     )}
+                /><Controller
+                    name="country"
+                    control={form.control}
+                    render={({ field, fieldState }) => (
+                        <Field data-invalid={fieldState.invalid}>
+                            <FieldLabel htmlFor="country">
+                                Country
+                            </FieldLabel>
+                            <Input
+                                {...field}
+                                id="country"
+                                className='h-12'
+                                aria-invalid={fieldState.invalid}
+                                placeholder="Country"
+                                autoComplete="off"
+                            />
+                            {fieldState.invalid && (
+                                <FieldError errors={[fieldState.error]} />
+                            )}
+                        </Field>
+                    )}
                 />
+               </div>
                 <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-4'>
                     <Controller
                         name="gender"
