@@ -5,64 +5,20 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Field } from "@/components/ui/field";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { format, parseISO, differenceInDays } from "date-fns";
+import { format } from "date-fns";
 import { CalendarIcon, Search, UsersRound } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
-import { DateRange } from "react-day-picker";
-import { toast } from "react-toastify";
 import Guests from "./guests";
+import { useFilters } from "@/hooks/use-filters";
 
 const FilterSelector = () => {
 
-  const searchParams = useSearchParams()
-  const router = useRouter()
-  const [date, setDate] = useState<DateRange | undefined>(() => {
-    const checkInParam = searchParams.get('checkIn')
-    const checkOutParam = searchParams.get('checkOut')
-    if (checkInParam && checkOutParam) {
-      return {
-        from: parseISO(checkInParam),
-        to: parseISO(checkOutParam),
-      }
-    }
-    return {
-      from: undefined,
-      to: undefined,
-    }
-  })
-
-  const [adults, setAdults] = useState(() => {
-    const adultsParam = searchParams.get('adults')
-    return adultsParam ? parseInt(adultsParam) : 1
-  })
-  const [children, setChildren] = useState(() => {
-    const childrenParam = searchParams.get('children')
-    return childrenParam ? parseInt(childrenParam) : 0
-  })
-
-
-  const onSearch = () => {
-    if (!date?.from || !date?.to) return
-    
-    const nights = differenceInDays(date.to, date.from)
-    if (nights < 7) {
-      toast.error("Minimum stay is 7 nights")
-      return
-    }
-    
-    const query = `?checkIn=${format(date.from, "yyyy-MM-dd")}&checkOut=${format(date.to, "yyyy-MM-dd")}&adults=${adults}&children=${children}`
-    router.push(query, { scroll: true })
-  }
-
-  const disabled = !date?.from || !date?.to
+  const { date, setDate, adults, setAdults, children, setChildren, onSearch, disabled } = useFilters()
 
   return (
     <div className="w-full max-w-4xl p-2 mx-auto items-center gap-4 bg-white rounded-lg hidden md:flex">
       <Field className="w-full">
         <Popover>
           <PopoverTrigger asChild className="flex flex-col">
-
             <Button
               variant="ghost"
               id="date-range"

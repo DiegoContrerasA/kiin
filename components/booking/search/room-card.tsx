@@ -31,7 +31,7 @@ const RoomCard = ({
 
     return (
         <article className="bg-white rounded-lg overflow-hidden">
-            <button onClick={() => setShowLightbox(slides)} className="relative overflow-hidden rounded-lg group">
+            <button onClick={() => setShowLightbox(slides)} className="relative w-full overflow-hidden rounded-lg group">
                 <img
                     className="w-full h-[300px] object-cover transition-all duration-500 ease-in-out group-hover:scale-110"
                     src={`${CONFIG.IMAGE_CDN_BASE_URL}/${room.photos[0]}`}

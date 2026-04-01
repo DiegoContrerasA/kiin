@@ -10,7 +10,15 @@ export const currencyFormat = (price?: number) => {
 }
 
 
-export const getTotales = (airportPickup: boolean, petFee: boolean, totalPrice: number) => {
+export const getTotales = ({
+    airportPickup,
+    petFee,
+    totalPrice
+}: {
+    airportPickup: boolean,
+    petFee: boolean,
+    totalPrice: number
+}) => {
    const airportPickupFee = airportPickup ? CONFIG.AIPOR_FEE : 0
     const petFeeAmount = petFee ? CONFIG.PET_FEE : 0
     const additionalFees = airportPickupFee + petFeeAmount

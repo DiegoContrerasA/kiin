@@ -3,12 +3,12 @@
 import CONFIG from '@/config';
 import { generateAuthToken } from '@/lib/auth';
 import { pool } from '@/lib/db';
+import { getTotales } from '@/lib/mappers';
 import { createReservation } from '@/lib/reservations';
 import { UserSchemaValues } from '@/schemas/summary.schema';
 import { getTRM } from '@/services/get-trm';
 import { PaymentLinkResponseError, PaymentLinkResponseSuccess } from '@/types/payment-link';
 import { Typology } from '@/types/room';
-
 
 interface CreatePaymentLinkParams {
   room: Typology;
@@ -40,7 +40,13 @@ export async function createPaymentLink({
 
    const authToken = await generateAuthToken();
   const trm = await getTRM();
-  const amountInCOP = totalAmount * trm;
+  const { depositTotal } = getTotales({
+    airportPickup: user.airportPickup,
+    petFee: user.petFee,
+    totalPrice: totalAmount
+  })
+
+  const amountInCOP = Math.round(depositTotal * trm);
 
   const payload = {
     source: CONFIG.SOURCE,
@@ -66,7 +72,6 @@ export async function createPaymentLink({
   let connection;
 
   try {
-    // 🔥 ahora sí queda protegido
     connection = await pool.getConnection();
 
     await connection.beginTransaction();
@@ -140,7 +145,6 @@ export async function createPaymentLink({
   } catch (error) {
     console.error('[createPaymentLink]', error);
 
-    // 🔥 solo hace rollback si existe conexión
     if (connection) {
       try {
         await connection.rollback();
@@ -156,7 +160,6 @@ export async function createPaymentLink({
     };
 
   } finally {
-    // 🔥 evita crasheo si nunca se creó
     if (connection) {
       connection.release();
     }

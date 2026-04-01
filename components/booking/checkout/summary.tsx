@@ -16,7 +16,11 @@ const Summary = ({ selectedRoom, isPending }: { selectedRoom: Typology | null, i
     const guests = adults + children
     
 
-    const { subtotal, depositTotal, airportPickupFee, petFeeAmount } = getTotales(airportPickup, petFee, selectedRoom?.priceInUsd || 0)
+    const { subtotal, depositTotal, airportPickupFee, petFeeAmount } = getTotales({
+        airportPickup,
+        petFee,
+        totalPrice: selectedRoom?.priceInUsd || 0
+    })
 
     return (
         <div className="rounded-lg bg-foreground text-white overflow-hidden">
