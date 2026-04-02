@@ -84,9 +84,18 @@ export default function MobileFilterSelector() {
         </Button>
       </div>
       <Drawer open={currentDrawer === FilterType.DATES} onOpenChange={(open) => setCurrentDrawer(open ? FilterType.DATES : null)}>
-        <DrawerContent className="h-[80vh]">
+        <DrawerContent className="h-[85vh] pb-4">
           <DrawerTitle className="sr-only">Filter</DrawerTitle>
-          <MobileRangeCalendar selected={date} onSelect={onHandleDateSelect} />
+          <div className="flex flex-col h-full">
+            <div className="flex-1 overflow-y-auto">
+              <MobileRangeCalendar selected={date} onSelect={onHandleDateSelect} />
+            </div>
+            <div className="border-t bg-background">
+              <Button onClick={() => setCurrentDrawer(null)} className="w-full my-4" size="xl" variant="brand">
+                Confirmar
+              </Button>
+            </div>
+          </div>
         </DrawerContent>
       </Drawer>
       <Drawer open={currentDrawer === FilterType.GUESTS} onOpenChange={(open) => setCurrentDrawer(open ? FilterType.GUESTS : null)}>

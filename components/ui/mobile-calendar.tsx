@@ -85,7 +85,7 @@ export function MobileRangeCalendar({ selected, onSelect }: MobileRangeCalendarP
                         className={cn(
                           "h-10 w-10 rounded-lg text-sm font-normal transition-colors",
                           "hover:bg-accent hover:text-accent-foreground",
-                          isToday && !rangeStart && !rangeEnd && "text-primary font-semibold",
+                          isToday && !rangeStart && !rangeEnd && "bg-muted text-foreground font-semibold",
                           (rangeStart || rangeEnd) && "bg-brand text-primary-foreground hover:bg-primary hover:text-primary-foreground",
                           inRange && !rangeStart && !rangeEnd && "text-accent-foreground",
                         )}
