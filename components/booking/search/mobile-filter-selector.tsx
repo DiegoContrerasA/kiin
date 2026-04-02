@@ -101,19 +101,26 @@ export default function MobileFilterSelector() {
       <Drawer open={currentDrawer === FilterType.GUESTS} onOpenChange={(open) => setCurrentDrawer(open ? FilterType.GUESTS : null)}>
         <DrawerContent>
           <DrawerTitle className="sr-only">Guest</DrawerTitle>
-          <div className="flex flex-col gap-4 px-4 py-8">
-              <Guests
-                value={adults}
-                setValue={setAdults}
-                title="Adultos"
-                subtitle="Edad: 15 años o más" />
-              <span className="border-b" />
-              <Guests
-                value={children}
-                setValue={setChildren}
-                title="Niños"
-                subtitle="Edades 2 - 14" />
+          <div className="flex flex-col h-full">
+            <div className="flex flex-col gap-4 px-4 py-8 flex-1">
+                <Guests
+                  value={adults}
+                  setValue={setAdults}
+                  title="Adultos"
+                  subtitle="Edad: 15 años o más" />
+                <span className="border-b" />
+                <Guests
+                  value={children}
+                  setValue={setChildren}
+                  title="Niños"
+                  subtitle="Edades 2 - 14" />
             </div>
+            <div className="p-4 border-t bg-background">
+              <Button onClick={() => setCurrentDrawer(null)} className="w-full" size="xl" variant="brand">
+                Confirmar
+              </Button>
+            </div>
+          </div>
         </DrawerContent>
       </Drawer>
     </>
