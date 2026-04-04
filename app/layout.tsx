@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://kiinliving.com/reservations/"
   },
+  icons: {
+    icon: "/icon-192x192.webp",
+  },
   openGraph: {
     locale: "es_ES",
     type: "article",
