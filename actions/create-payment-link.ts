@@ -9,6 +9,7 @@ import { UserSchemaValues } from '@/schemas/summary.schema';
 import { getTRM } from '@/services/get-trm';
 import { PaymentLinkResponseError, PaymentLinkResponseSuccess } from '@/types/payment-link';
 import { Typology } from '@/types/room';
+import logger from '@/lib/logger';
 
 interface CreatePaymentLinkParams {
   room: Typology;
@@ -108,6 +109,8 @@ export async function createPaymentLink({
       ]
     );
 
+      logger.info('[CREATE_LINK] Sending request to payment API', {...payload});
+
     const response = await fetch(
       `${CONFIG.AUTO_CORE_BASE_URL}/links/schedule`,
       {
@@ -123,9 +126,15 @@ export async function createPaymentLink({
 
     const data = await response.json();
 
+    logger.info('[CREATE_LINK_RESPONSE] API response received', {...data});
+
     if (!response.ok || !data?.url) {
       await connection.rollback();
-      console.error('[createPaymentLink]', data);
+      logger.error('[PAYMENT_LINK_ERROR] Error creating payment link from API', { 
+        status: response.status,
+        response: data,
+        externalRefId 
+      });
       return {
         success: false,
         error: 'We have problems creating your payment link, please try again later',
@@ -143,19 +152,26 @@ export async function createPaymentLink({
     };
 
   } catch (error) {
-    console.error('[createPaymentLink]', error);
+      logger.error('[PAYMENT_LINK_ERROR] Error creating payment link', { 
+        externalRefId,
+        error: error instanceof Error ? error.message : String(error) 
+      });
 
-    if (connection) {
-      try {
-        await connection.rollback();
-      } catch (e) {
-        console.error('[rollback error]', e);
+      if (connection) {
+        try {
+          await connection.rollback();
+          logger.warn('[PAYMENT_LINK_ERROR] Transaction rolled back', { externalRefId });
+        } catch (e) {
+          logger.error('[PAYMENT_LINK_ERROR] Error rolling back transaction', { 
+            externalRefId,
+            error: e instanceof Error ? e.message : String(e) 
+          });
+        }
       }
-    }
 
     return {
       success: false,
-      error: 'Database connection error or unexpected issue',
+      error: 'We have problems creating your payment link, please try again later',
       code: 'DB_CONNECTION_ERROR',
     };
 
