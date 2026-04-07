@@ -16,6 +16,7 @@ const CONFIG = {
     SOURCE: 'Contravia',
     HOTEL_ID: 121,
     PUBLIC_URL: process.env.NEXT_PUBLIC_BASE_URL,
+    LOG_FILES: process.env.LOG_FILES || false,
 };
 
 export default CONFIG;

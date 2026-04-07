@@ -1,3 +1,4 @@
+import CONFIG from '@/config';
 import winston from 'winston';
 import 'winston-daily-rotate-file';
 
@@ -28,29 +29,33 @@ const consoleFormat = winston.format.combine(
   })
 );
 
+const enableFile = CONFIG.LOG_FILES;
+
 const transports: winston.transport[] = [
   new winston.transports.Console({
     format: consoleFormat,
-    // 👇 consola solo en desarrollo
-    silent: process.env.NODE_ENV === 'production',
   }),
-  new winston.transports.DailyRotateFile({
-    filename: `${logDir}/application-%DATE%.log`,
-    datePattern: 'YYYY-MM-DD',
-    zippedArchive: true,
-    maxSize: '20m',
-    maxFiles: '14d',
-    format: logFormat,
-  }),
-  new winston.transports.DailyRotateFile({
-    filename: `${logDir}/error-%DATE%.log`,
-    datePattern: 'YYYY-MM-DD',
-    zippedArchive: true,
-    maxSize: '20m',
-    maxFiles: '14d',
-    level: 'error',
-    format: logFormat,
-  }),
+  ...(enableFile
+    ? [
+        new winston.transports.DailyRotateFile({
+          filename: `${logDir}/application-%DATE%.log`,
+          datePattern: 'YYYY-MM-DD',
+          zippedArchive: true,
+          maxSize: '20m',
+          maxFiles: '14d',
+          format: logFormat,
+        }),
+        new winston.transports.DailyRotateFile({
+          filename: `${logDir}/error-%DATE%.log`,
+          datePattern: 'YYYY-MM-DD',
+          zippedArchive: true,
+          maxSize: '20m',
+          maxFiles: '14d',
+          level: 'error',
+          format: logFormat,
+        }),
+      ]
+    : []),
 ];
 
 export const logger = winston.createLogger({
