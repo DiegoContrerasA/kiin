@@ -65,8 +65,8 @@ export async function createPaymentLink({
     allowed_payment_options: ['credit_card'],
     temp_webhook_url: `${CONFIG.PUBLIC_URL}/api/webhook`,
     redirect: {
-      success_url: `${CONFIG.PUBLIC_URL}/thank-you`,
-      failure_url: `${CONFIG.PUBLIC_URL}/failed`,
+      success_url: `${CONFIG.PUBLIC_URL}/thank-you?confirmationNumber=${externalRefId}`,
+      failure_url: `${CONFIG.PUBLIC_URL}/reservation-error`,
     },
   };
 
