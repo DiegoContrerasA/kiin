@@ -24,7 +24,7 @@ const Summary = ({ selectedRoom, isPending }: { selectedRoom: Typology | null, i
 
     return (
         <div className="rounded-lg bg-foreground text-white overflow-hidden">
-            <picture className="relative">
+            <picture className="relative block">
                 <img className="w-full h-[300px] object-cover" src={`${CONFIG.IMAGE_CDN_BASE_URL}/${selectedRoom?.photos[0]}`} alt="" />
                 <figcaption className="absolute inset-0 bg-gradient-to-b from-black/2 to-foreground p-4 w-full h-full flex flex-col justify-end">
                     <h3 className="text-base font-semibold">MEDELLIN - EL POBLADO</h3>
