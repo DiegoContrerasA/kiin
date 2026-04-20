@@ -57,6 +57,7 @@ export async function createPaymentLink({
     country_code: user.countryCode,
     phone: user.phone,
     amount: amountInCOP,
+    currency: 'USD',
     booking_dates: `${checkIn} - ${checkOut}`,
     description: `Reserva de ${room.name}`,
     available_hours: 24,
@@ -66,7 +67,7 @@ export async function createPaymentLink({
     temp_webhook_url: `${CONFIG.PUBLIC_URL}/api/webhook`,
     redirect: {
       success_url: `${CONFIG.PUBLIC_URL}/thank-you?confirmationNumber=${externalRefId}`,
-      failure_url: `${CONFIG.PUBLIC_URL}/reservation-error`,
+      failure_url: `${CONFIG.PUBLIC_URL}/reservation-error?confirmationNumber=${externalRefId}`,
     },
   };
 
