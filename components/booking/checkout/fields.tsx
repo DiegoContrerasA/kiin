@@ -4,11 +4,11 @@ import { Controller, useWatch } from 'react-hook-form'
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { COUNTRY_OPTIONS, DOCUMENT_OPTIONS, GENDER_OPTIONS } from '@/config/data'
+import { COUNTRY_OPTIONS, DOCUMENT_OPTIONS, GENDER_OPTIONS, NATIONALITY_OPTIONS } from '@/config/data'
 
 import { PhoneInput } from '@/components/ui/phone-input'
 
-import {  CarFrontIcon, Dog } from 'lucide-react'
+import { CarFrontIcon, Dog } from 'lucide-react'
 import { useFormContext } from 'react-hook-form'
 import Addon from './addon'
 
@@ -134,50 +134,67 @@ const Fields = () => {
                     />
                 </div>
                 <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-4'>
-                  <Controller
-                    name="email"
-                    control={form.control}
-                    render={({ field, fieldState }) => (
-                        <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel htmlFor="email">
-                                Email
-                            </FieldLabel>
-                            <Input
-                                {...field}
-                                id="email"
-                                className='h-12'
-                                aria-invalid={fieldState.invalid}
-                                placeholder="Email"
-                                autoComplete="off"
-                            />
-                            {fieldState.invalid && (
-                                <FieldError errors={[fieldState.error]} />
-                            )}
-                        </Field>
-                    )}
-                /><Controller
-                    name="country"
-                    control={form.control}
-                    render={({ field, fieldState }) => (
-                        <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel htmlFor="country">
-                                Country
-                            </FieldLabel>
-                            <Input
-                                {...field}
-                                id="country"
-                                className='h-12'
-                                aria-invalid={fieldState.invalid}
-                                placeholder="Country"
-                                autoComplete="off"
-                            />
-                            {fieldState.invalid && (
-                                <FieldError errors={[fieldState.error]} />
-                            )}
-                        </Field>
-                    )}
-                />
-               </div>
+                    <Controller
+                        name="email"
+                        control={form.control}
+                        render={({ field, fieldState }) => (
+                            <Field data-invalid={fieldState.invalid}>
+                                <FieldLabel htmlFor="email">
+                                    Email
+                                </FieldLabel>
+                                <Input
+                                    {...field}
+                                    id="email"
+                                    className='h-12'
+                                    aria-invalid={fieldState.invalid}
+                                    placeholder="Email"
+                                    autoComplete="off"
+                                />
+                                {fieldState.invalid && (
+                                    <FieldError errors={[fieldState.error]} />
+                                )}
+                            </Field>
+                        )}
+                    /><Controller
+                        name="country"
+                        control={form.control}
+                        render={({ field, fieldState }) => (
+                            <Field data-invalid={fieldState.invalid}>
+                                <FieldLabel htmlFor="country">
+                                    Country
+                                </FieldLabel>
+                                <Select
+                                    name={field.name}
+                                    value={field.value}
+                                    onValueChange={field.onChange}
+                                >
+                                    <SelectTrigger
+                                        id="country"
+                                        aria-invalid={fieldState.invalid}
+                                        className="min-w-[120px] !h-12"
+                                    >
+                                        <SelectValue placeholder="Select your country" />
+                                    </SelectTrigger>
+                                    <SelectContent
+                                        position="popper"
+                                        side="bottom"
+                                        align="start"
+                                        sideOffset={2}
+                                        className='!max-h-[300px] overflow-y-auto'>
+                                        {COUNTRY_OPTIONS.map((option) => (
+                                            <SelectItem className='!h-12' key={option.value} value={option.value}>
+                                                {option.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                                {fieldState.invalid && (
+                                    <FieldError errors={[fieldState.error]} />
+                                )}
+                            </Field>
+                        )}
+                    />
+                </div>
                 <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-4'>
                     <Controller
                         name="gender"
@@ -199,7 +216,12 @@ const Fields = () => {
                                     >
                                         <SelectValue placeholder="Select your gender" />
                                     </SelectTrigger>
-                                    <SelectContent position="item-aligned">
+                                    <SelectContent
+                                        position="popper"
+                                        side="bottom"
+                                        align="start"
+                                        sideOffset={2}
+                                    >
                                         {GENDER_OPTIONS.map((option) => (
                                             <SelectItem className='!h-12' key={option.value} value={option.value}>
                                                 {option.label}
@@ -247,14 +269,30 @@ const Fields = () => {
                                 <FieldLabel htmlFor="nationality">
                                     Nationality
                                 </FieldLabel>
-                                <Input
-                                    {...field}
-                                    id="nationality"
-                                    className='h-12'
-                                    aria-invalid={fieldState.invalid}
-                                    placeholder="Nationality"
-                                    autoComplete="off"
-                                />
+                                <Select
+                                    name={field.name}
+                                    value={field.value}
+                                    onValueChange={field.onChange}
+                                >
+                                    <SelectTrigger
+                                        id="nationality"
+                                        aria-invalid={fieldState.invalid}
+                                        className="min-w-[120px] !h-12"
+                                    >
+                                        <SelectValue placeholder="Select your nationality" />
+                                    </SelectTrigger>
+                                    <SelectContent position="popper"
+                                        side="bottom"
+                                        align="start"
+                                        sideOffset={2}
+                                        className='!max-h-[300px] overflow-y-auto'>
+                                        {NATIONALITY_OPTIONS.map((option) => (
+                                            <SelectItem className='!h-12' key={option.value} value={option.value}>
+                                                {option.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
                                 {fieldState.invalid && (
                                     <FieldError errors={[fieldState.error]} />
                                 )}
