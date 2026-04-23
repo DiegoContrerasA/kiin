@@ -1,8 +1,8 @@
 
 import NoResults from "./no-results";
-import { getRooms } from "@/actions/get-rooms";
 import RoomCard from "./room-card";
 import "yet-another-react-lightbox/styles.css";
+import { getRoomAction } from "@/actions/get-room-action";
 
 interface ApartmentsProps {
     params: {
@@ -14,7 +14,7 @@ interface ApartmentsProps {
 }
 
 const Apartments = async ({ params }: ApartmentsProps) => {
-    const  rooms = await getRooms(params);
+    const  rooms = await getRoomAction(params);
 
     if(!rooms?.length) return <NoResults />
     return (

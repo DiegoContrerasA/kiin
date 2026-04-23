@@ -1,7 +1,8 @@
-import { TypologiesResponse } from "@/types/room";
-import CONFIG from "../config";
-import { getTRM } from "./get-trm";
+
 import { calculateNights, calculatePrice } from "@/lib/pms";
+import { getTrm } from "./get-trm";
+import CONFIG from "@/config";
+import { PmsTypologiesResponse } from "@/types/pms";
 
 interface Params {
     checkIn: string;
@@ -10,14 +11,14 @@ interface Params {
     children: string;
 }
 
-export const fetchRoom = async (params: Params) => {
+export const fethAvaliableRooms = async (params: Params) => {
     try {
         const { checkIn, checkOut, adults, children } = params;
         const response = await fetch(
             `${CONFIG.PMS_BASE_URL}/room/available?dateStart=${checkIn}&dateEnd=${checkOut}&adults=${adults}&children=${children}`,
             { next: { revalidate: 300 } }
         );
-        const data: TypologiesResponse = await response.json();
+        const data: PmsTypologiesResponse = await response.json();
         if (!data?.typologies) return undefined
         return data?.typologies
 
@@ -27,11 +28,11 @@ export const fetchRoom = async (params: Params) => {
     }
 };
 
-export const getRoomFromPms = async (params: Params) => {
+export const getPmsAvaliableRooms = async (params: Params) => {
     try {
         const [data, trm] = await Promise.all([
-            fetchRoom(params),
-            getTRM()
+            fethAvaliableRooms(params),
+            getTrm()
         ])
 
         if (!data || !trm) return [];
@@ -43,14 +44,16 @@ export const getRoomFromPms = async (params: Params) => {
 
         return data.map((room) => ({
             ...room,
-            priceInUsd: calculatePrice({
+            roomPrice: calculatePrice({
                 price: room.priceByNight,
                 trm,
                 nights
             }),
-            trm,
             nights,
-            search: { ...params }
+            startDate: params.checkIn,
+            endDate: params.checkOut,
+            adults: params.adults,
+            children: params.children,
         }));
 
     } catch {

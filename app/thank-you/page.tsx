@@ -1,7 +1,9 @@
-import { getThankYouData } from "@/actions/get-reservation";
-import CONFIG from "@/config";
+/* eslint-disable @next/next/no-img-element */
 import { Lightbulb } from "lucide-react";
-import { formatColombianPesos, formatDate } from "@/lib/mappers";
+import { currencyFormat, formatDate } from "@/lib/mappers";
+import { getReservationAction } from "@/actions/get-reservation-action";
+import { PaymentStatus } from "@/types/localdb";
+import PaymentStatusDisplay from "@/components/payment-status";
 
 
 interface ThankYouPageProps {
@@ -12,7 +14,7 @@ interface ThankYouPageProps {
 
 const ThankYouPage = async (props: ThankYouPageProps) => {
   const searchParams = await props.searchParams;
-  const { reservation, posts } = await getThankYouData(searchParams.confirmationNumber);
+  const { start_date, end_date, deposit, posts, status, reservationId } = await getReservationAction(searchParams.confirmationNumber);
 
   return (
     <section className="max-w-4xl mx-auto w-full px-6">
@@ -30,31 +32,30 @@ const ThankYouPage = async (props: ThankYouPageProps) => {
               <img
                 alt="Apartment Superior Medellín"
                 className="w-full h-full object-cover"
-                src={`${CONFIG.IMAGE_CDN_BASE_URL}/${reservation?.typology?.photos?.[0]}`}
+                src='https://kiinliving.com/wp-content/uploads/2026/03/LejosKiin-1024x576.webp'
               />
             </div>
             <div className="flex flex-col h-full p-6">
               <div className="mb-4">
                 <span className="text-[10px] uppercase tracking-[0.2em]  font-bold mb-2 block">Kiin Living</span>
-                <h3 className="text-2xl font-light  leading-tight italic">{reservation?.typology?.name ?? 'Apartment'}</h3>
                 <p className=" text-xs">Medellín, Colombia</p>
               </div>
               <div className="space-y-4 mb-2">
                 <div className="flex justify-between items-baseline border-b border-white/20 py-2">
                   <span className="text-xs  uppercase tracking-widest">Check-in</span>
                   <span className="text-sm font-medium">
-                    {formatDate(reservation?.reservation_date_start)}
+                    {formatDate(start_date)}
                   </span>
                 </div>
                 <div className="flex justify-between items-baseline border-b border-white/20 py-2">
                   <span className="text-xs  uppercase tracking-widest">Check-out</span>
                   <span className="text-sm font-medium">
-                    {formatDate(reservation?.reservation_date_end)}
+                    {formatDate(end_date)}
                   </span>
                 </div>
                 <div className="flex justify-between items-baseline border-b border-white/20 py-4">
                   <span className="text-xs  uppercase tracking-widest">Deposit</span>
-                  <span className="text-xl font-bold ">{formatColombianPesos(reservation?.amount_in_cop)}</span>
+                  <span className="text-xl font-bold ">{currencyFormat(deposit)}</span>
                 </div>
               </div>
               <div className="mt-auto">
@@ -64,6 +65,12 @@ const ThankYouPage = async (props: ThankYouPageProps) => {
               </div>
             </div>
           </div>
+        </section>
+
+        {/* Payment Status */}
+        <section className="transition-all duration-500">
+          <h2 className="text-2xl font-bold pb-2 border-b border-muted-foreground/20 mb-8">Payment Status</h2>
+          <PaymentStatusDisplay status={status as PaymentStatus} reservationId={reservationId} />
         </section>
 
         {/* What's Next */}

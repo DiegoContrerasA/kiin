@@ -1,20 +1,21 @@
+/* eslint-disable @next/next/no-img-element */
 'use client'
 
 import { buttonVariants } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import CONFIG from "@/config"
 import { currencyFormat } from "@/lib/mappers"
-import { Typology } from "@/types/room"
 import { BedDouble, Maximize2, Toilet } from "lucide-react"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
 import { useMemo, useState } from "react"
 import { Lightbox } from "yet-another-react-lightbox";
+import { PmsTypology } from "@/types/pms";
 
 const RoomCard = ({
     room
 }: {
-    room: Typology
+    room: PmsTypology
 }) => {
 
     const searchParams = useSearchParams();
@@ -49,7 +50,7 @@ const RoomCard = ({
                         <span className="flex gap-2 items-center"><BedDouble className="size-3.5" />{room.roomCount?.[0] ?? 1}</span>
                         <span className="flex gap-2 items-center"><Toilet className="size-3.5" />{room.bathroomCount?.[0] ?? 1}</span>
                     </div>
-                    <p className="text-lg font-bold text-brand">{currencyFormat(room.priceInUsd)}USD<span className="text-muted-foreground text-xs"> / {room.nights} nights</span></p>
+                    <p className="text-lg font-bold text-brand">{currencyFormat(room.roomPrice)}USD<span className="text-muted-foreground text-xs"> / {room.nights} nights</span></p>
                 </div>
                 <Separator className="my-4" />
                 <Link href={buildCheckoutUrl} className={buttonVariants({ variant: 'default', className: 'w-full', size: 'xl' })}>

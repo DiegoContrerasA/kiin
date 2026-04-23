@@ -33,19 +33,19 @@ export const formatDate = (date: Date | string | null | undefined): string => {
 };
 
 
-export const getTotales = ({
-    airportPickup,
-    petFee,
-    totalPrice
+export const calculateTotals = ({
+    withTransfer,
+    withPet,
+    roomPrice
 }: {
-    airportPickup: boolean,
-    petFee: boolean,
-    totalPrice: number
+    withTransfer: boolean,
+    withPet: boolean,
+    roomPrice: number
 }) => {
-   const airportPickupFee = airportPickup ? CONFIG.AIPOR_FEE : 0
-    const petFeeAmount = petFee ? CONFIG.PET_FEE : 0
-    const additionalFees = airportPickupFee + petFeeAmount
-    const subtotal = (totalPrice ?? 0) + additionalFees
-    const depositTotal = Math.round(subtotal / 2)
-    return { depositTotal, subtotal, additionalFees,petFeeAmount, airportPickupFee}
+   const tranferFee = withTransfer ? CONFIG.TRANSFER_FEE : 0
+    const petFee = withPet ? CONFIG.PET_FEE : 0
+    const additionalFees = tranferFee + petFee
+    const total = (roomPrice ?? 0) + additionalFees
+    const deposit = Math.round(total / 2)
+    return { deposit, total, additionalFees }
 }

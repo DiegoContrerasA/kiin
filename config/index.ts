@@ -12,7 +12,7 @@ const CONFIG = {
     SECRET_KEY: process.env.SECRET_KEY,
     PMS_KEY: process.env.PMS_KEY,
     PET_FEE: 30,
-    AIPOR_FEE: 100,
+    TRANSFER_FEE: 100,
     SOURCE: 'Contravia',
     HOTEL_ID: 121,
     PUBLIC_URL: process.env.NEXT_PUBLIC_BASE_URL,

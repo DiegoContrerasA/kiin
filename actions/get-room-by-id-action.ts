@@ -1,8 +1,9 @@
 'use server'
 
+import { getPmsAvaliableRooms } from '@/services/pms/get-pms-avaliable-rooms';
 import { Typology } from '@/types/room';
 import { redirect } from 'next/navigation';
-import { getRoomFromPms } from '@/services/get-room-from-pms';
+
 
 interface GetRoomsParams {
     checkIn?: string;
@@ -12,7 +13,7 @@ interface GetRoomsParams {
     roomId?: string;
 }
 
-export const getRoomById = async ({
+export const getRoomByIdAction = async ({
     checkIn,
     checkOut,
     adults,
@@ -23,7 +24,7 @@ export const getRoomById = async ({
         return redirect("/");
     }
 
-    const rooms = await getRoomFromPms({ checkIn, checkOut, adults, children });
+    const rooms = await getPmsAvaliableRooms({ checkIn, checkOut, adults, children });
 
     if (!rooms) redirect("/");
 

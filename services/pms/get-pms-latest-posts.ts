@@ -1,22 +1,7 @@
 'use server';
 
 import CONFIG from '@/config';
-
-export interface WPPost {
-  id: number;
-  title: string;
-  link: string;
-  excerpt: string;
-  date: string;
-}
-
-export interface WPPostResponse {
-  id: number;
-  title: { rendered: string };
-  link: string;
-  excerpt: { rendered: string };
-  date: string;
-}
+import { WPPost, WPPostResponse } from '@/types/pms';
 
 export async function getLatestPosts(count: number = 2): Promise<WPPost[]> {
   try {

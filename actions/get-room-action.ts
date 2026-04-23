@@ -1,7 +1,9 @@
 'use server'
 
-import { Typology } from '@/types/room';
-import { getRoomFromPms } from '@/services/get-room-from-pms';
+import { getPmsAvaliableRooms } from '@/services/pms/get-pms-avaliable-rooms';
+import { PmsTypology } from '@/types/pms';
+
+
 
 interface GetRoomsParams {
     checkIn?: string;
@@ -10,17 +12,17 @@ interface GetRoomsParams {
     children?: string;
 }
 
-export const getRooms = async ({
+export const getRoomAction = async ({
     checkIn,
     checkOut,
     adults,
     children
-}: GetRoomsParams): Promise<Typology[] | undefined> => {
+}: GetRoomsParams): Promise<PmsTypology[] | undefined> => {
     if (!checkIn || !checkOut || !adults || !children) {
         return undefined;
     }
     
-    return await getRoomFromPms({
+    return await getPmsAvaliableRooms({
         checkIn,
         checkOut,
         adults,

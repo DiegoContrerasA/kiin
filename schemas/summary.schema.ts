@@ -12,8 +12,8 @@ export const UserSchema = z.object({
     nationality: z.string().min(2, "Nationality is required."),
     country:z.string().min(2, "Country is required."),
     socialMediaProfile: z.string().optional(),
-    airportPickup: z.boolean().default(false),
-    petFee: z.boolean().default(false),
+    withTransfer: z.boolean().default(false),
+    withPet: z.boolean().default(false),
 })
 
 export const defaultUserSchema = {
@@ -27,8 +27,8 @@ export const defaultUserSchema = {
     nationality: "",
     country: "",
     socialMediaProfile: "",
-    airportPickup: false,
-    petFee: false,
+    withTransfer: false,
+    withPet: false,
 }
 
 export type UserSchemaValues = z.infer<typeof UserSchema>

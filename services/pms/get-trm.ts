@@ -2,7 +2,7 @@
 
 import CONFIG from "@/config";
 
-export const getTRM = async (): Promise<number> => {
+export const getTrm = async (): Promise<number> => {
     try {
         const response = await fetch(CONFIG.TRM_BASE_URL!, {
             next: { revalidate: 3600 * 3 }
