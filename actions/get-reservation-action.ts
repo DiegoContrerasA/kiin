@@ -18,6 +18,12 @@ interface GetReservationData {
 export async function getReservationAction(
   externalRefId: string
 ): Promise<GetReservationData> {
+
+  if(!externalRefId) {
+    redirect('/not-found');
+  }
+
+  console.log('externalRefId', externalRefId);
   const [localReservation, posts] = await Promise.all([
     getLocalReservationByExternalRef(externalRefId),
     getLatestPosts(2),

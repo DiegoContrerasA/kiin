@@ -39,7 +39,10 @@ export async function POST(request: NextRequest) {
           { status: 500 }
         );
       }
+    }
 
+    if(payment_status === PaymentStatus.REJECTED || payment_status === PaymentStatus.INVALID_CARD) {
+    //aqui se debe enviar un email a juan felite 
     }
 
    const updated = await updateLocalPaymentStatusByExternalRef(external_ref_id, payment_status);

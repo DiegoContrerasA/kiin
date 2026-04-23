@@ -47,8 +47,8 @@ export async function generatePaymentLink(
       _id: 'test',
     }
 
-    const external_ref_id = generateId('#', pmsReservation._id);
-    const reservation_id = generateId('BK', pmsReservation._id);
+    const external_ref_id = generateId('BK', pmsReservation._id);
+    const reservation_id = generateId('KIIN', pmsReservation._id);
 
        const { deposit } = calculateTotals({
             withTransfer: reservation.withTransfer,
@@ -73,7 +73,7 @@ export async function generatePaymentLink(
       };
     }
 
-    const paymentLink = await createAutocorePaymentLink(autocoreAdapter({ user, reservation, typology, external_ref_id, reservation_id }));
+    const paymentLink = await createAutocorePaymentLink(autocoreAdapter({ user, reservation, typology, external_ref_id, reservation_id, deposit }));
     if (!paymentLink) {
       return {
         success: false,

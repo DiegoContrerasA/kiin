@@ -18,6 +18,7 @@ export interface AutocorePaymentLinkRequest {
   available_hours: number;
   reservation_id: string;
   external_ref_id: string;
+  currency: string;
   allowed_payment_options: ('nequi' | 'daviplata' | 'pse' | 'credit_card')[];
   temp_webhook_url: string;
   redirect: AutocoreRedirectOptions;

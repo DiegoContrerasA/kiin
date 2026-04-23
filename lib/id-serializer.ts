@@ -7,21 +7,22 @@
  * Generates a unique ID with prefix and value
  * @param prefix - The prefix for the ID
  * @param value - The value to append to the prefix
- * @returns A string in format "prefixvalue-timestamp"
+ * @returns A string in format "prefix-value-timestamp"
  */
 export function generateId(prefix: string, value: string): string {
-  return `${prefix}${value}-${Date.now()}`;
+  return `${prefix}-${value}-${Date.now()}`;
 }
 
 /**
  * Parses a generated ID to extract the value without prefix and timestamp
- * @param id - The full ID string in format "prefixvalue-timestamp"
+ * @param id - The full ID string in format "prefix-value-timestamp"
  * @param prefix - The prefix to remove from the ID
  * @returns The value part without prefix and timestamp
  */
 export function parseId(id: string, prefix: string): string {
-  // Remove prefix
-  const withoutPrefix = id.startsWith(prefix) ? id.slice(prefix.length) : id;
+  // Remove prefix with dash
+  const prefixWithDash = `${prefix}-`;
+  const withoutPrefix = id.startsWith(prefixWithDash) ? id.slice(prefixWithDash.length) : id;
   
   // Remove timestamp (everything after the last dash)
   const lastDashIndex = withoutPrefix.lastIndexOf('-');

@@ -1,7 +1,8 @@
 'use server'
 
 import { getPmsAvaliableRooms } from '@/services/pms/get-pms-avaliable-rooms';
-import { Typology } from '@/types/room';
+import { PmsTypology } from '@/types/pms';
+
 import { redirect } from 'next/navigation';
 
 
@@ -19,7 +20,7 @@ export const getRoomByIdAction = async ({
     adults,
     children,
     roomId
-}: GetRoomsParams): Promise<Typology> => {
+}: GetRoomsParams): Promise<PmsTypology> => {
     if (!checkIn || !checkOut || !adults || !children || !roomId) {
         return redirect("/");
     }
@@ -28,7 +29,7 @@ export const getRoomByIdAction = async ({
 
     if (!rooms) redirect("/");
 
-    const room = rooms.find((r: Typology) => r._id === roomId);
+    const room = rooms.find((r: PmsTypology) => r._id === roomId);
     if (!room) return redirect("/");
 
     return room;

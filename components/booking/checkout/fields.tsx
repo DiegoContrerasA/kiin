@@ -14,15 +14,15 @@ import Addon from './addon'
 
 const Fields = () => {
     const form = useFormContext()
-    const airportPickup = useWatch({ name: "airportPickup", control: form.control })
-    const petFee = useWatch({ name: "petFee", control: form.control })
+    const withTransfer = useWatch({ name: "withTransfer", control: form.control })
+    const withPet = useWatch({ name: "withPet", control: form.control })
 
-    const toggleAirportPickup = () => {
-        form.setValue("airportPickup", !airportPickup)
+    const toggleWithTransfer = () => {
+        form.setValue("withTransfer", !withTransfer)
     }
 
-    const togglePetFee = () => {
-        form.setValue("petFee", !petFee)
+    const toggleWithPet = () => {
+        form.setValue("withPet", !withPet)
     }
 
     return (
@@ -325,16 +325,16 @@ const Fields = () => {
             </div>
             <div className="space-y-10">
                 <Addon
-                    value={petFee}
-                    setValue={togglePetFee}
+                    value={withPet}
+                    setValue={toggleWithPet}
                     icon={Dog}
                     title="Pet Fee"
                     description="Add pet fee for "
                     price={30}
                 />
                 <Addon
-                    value={airportPickup}
-                    setValue={toggleAirportPickup}
+                    value={withTransfer}
+                    setValue={toggleWithTransfer}
                     icon={CarFrontIcon}
                     title="Airport Pickup"
                     description="Add airport pickup service for "
