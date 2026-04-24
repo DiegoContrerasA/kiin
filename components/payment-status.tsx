@@ -44,7 +44,7 @@ export default function PaymentStatusDisplay({ status, reservationId }: Props) {
   }[uiState]
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
+    <div className="bg-brand/5 rounded-lg border  p-6">
       <div className="flex items-center gap-3">
         <div
           className={`w-4 h-4 rounded-full ${config.color} ${
@@ -53,11 +53,11 @@ export default function PaymentStatusDisplay({ status, reservationId }: Props) {
         />
 
         <div className="flex-1">
-          <h3 className="text-lg font-semibold text-gray-800">
+          <h3 className="font-semibold text-sm uppercase">
             {config.title}
           </h3>
 
-          <p className="text-sm text-gray-600 mb-4">
+          <p className="text-sm mb-4">
             {config.message}
           </p>
 
@@ -68,8 +68,7 @@ export default function PaymentStatusDisplay({ status, reservationId }: Props) {
               rel="noopener noreferrer"
               className={buttonVariants({
                 size: 'sm',
-                variant: 'outline',
-                className: 'text-red-600 border-red-600 hover:bg-red-50',
+                variant: 'destructive',
               })}
             >
               Contact Support on WhatsApp
