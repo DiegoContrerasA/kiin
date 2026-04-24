@@ -8,7 +8,8 @@ import logger from '@/lib/logger';
 import { AutocorePaymentWebhook } from '@/types/autocore';
 import { getLocalReservationByExternalRef, updateLocalPaymentStatusByExternalRef } from '@/services/localdb';
 import { PaymentStatus } from '@/types/localdb';
-import { sendWebHookError } from '@/services/emails/send-webhook-error';
+import { sendEmail } from '@/services/emails/send-email';
+import webHookTemplate from '@/services/emails/templates/web-hook-template';
 
 export async function POST(request: NextRequest) {
   let body: AutocorePaymentWebhook | null = null;
@@ -31,7 +32,7 @@ export async function POST(request: NextRequest) {
     
 
     // Create reservation in PMS - always call to get the real booking ID from PMS
-    const reservationId = parseId(external_ref_id, '#');
+    const reservationId = parseId(external_ref_id, 'BK');
 
     
     // Create payment in PMS only when payment status is 'Aplicado'
@@ -48,7 +49,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: true, message: 'Webhook processed' });
   } catch (error) {
     if (body) {
-      sendWebHookError(body);
+      sendEmail({
+        template: webHookTemplate(body),
+        subject: 'Error de Webhook - Kiin Booking',
+      });
     }
     logger.error('[WEBHOOK_ERROR] Error processing webhook', { 
       error: error instanceof Error ? error.message : String(error) 
