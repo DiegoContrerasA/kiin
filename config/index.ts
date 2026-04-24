@@ -17,6 +17,7 @@ const CONFIG = {
     HOTEL_ID: 121,
     PUBLIC_URL: process.env.NEXT_PUBLIC_BASE_URL,
     LOG_FILES: process.env.NEXT_PUBLIC_LOG_FILES || false,
+    EMAIL: process.env.KIIN_EMAILS || '',
 };
 
 export default CONFIG;

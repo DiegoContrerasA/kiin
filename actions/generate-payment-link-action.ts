@@ -8,6 +8,7 @@ import { createAutocorePaymentLink } from '@/services/autocore';
 import { autocoreAdapter } from '@/adapters/autocore.adapter';
 import { generateId } from '@/lib/id-serializer';
 import { calculateTotals } from '@/lib/mappers';
+import { sendPaymentFailure } from '@/services/emails/send-payment-failure';
 
 interface GeneratePaymentLinkParams {
   user: PmsUser;
@@ -65,6 +66,7 @@ export async function generatePaymentLink(
       link: paymentLink,
     };
   } catch (error) {
+    sendPaymentFailure(user, reservation, typology);
     logError('Error in generate payment link process', error, { user, typology, reservation });
     //aqui enviar email ....
     return {
