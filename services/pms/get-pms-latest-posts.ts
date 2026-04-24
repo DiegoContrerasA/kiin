@@ -2,6 +2,7 @@
 
 import CONFIG from '@/config';
 import { WPPost, WPPostResponse } from '@/types/pms';
+import { logError } from '@/lib/logger';
 
 export async function getLatestPosts(count: number = 2): Promise<WPPost[]> {
   try {
@@ -23,7 +24,7 @@ export async function getLatestPosts(count: number = 2): Promise<WPPost[]> {
       date: post.date,
     }));
   } catch (error) {
-    console.error('Error fetching latest posts:', error);
+    logError('[PMS] Error fetching latest posts:', error);
     return [];
   }
 }

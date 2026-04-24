@@ -41,7 +41,7 @@ export async function createPMSPayment(
     const data: PmsPaymentResponse = await response.json();
     return data;
   } catch (error) {
-    logError('Error creating PMS payment', error, { reservationId, amount, transactionId });
+    logError('[PMS] Error creating PMS payment', error, { reservationId, amount, transactionId });
     return null;
   }
 }

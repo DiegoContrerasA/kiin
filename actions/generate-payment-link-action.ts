@@ -36,13 +36,6 @@ export async function generatePaymentLink(
     //   isTest: process.env.NODE_ENV === 'development',
     // });
 
-    // if (!pmsReservation) {
-    //   return {
-    //     success: false,
-    //     error: 'Failed to create reservation, please try again',
-    //   };
-    // }
-
     const pmsReservation = {
       _id: 'test',
     }
@@ -56,30 +49,16 @@ export async function generatePaymentLink(
             roomPrice: typology?.roomPrice || 0
         })
     
-
-    const localReservation = await createLocalReservation({
+     await createLocalReservation({
       external_ref_id: external_ref_id,
       reservation_id: reservation_id,
       start_date: reservation.dateStart,
       end_date: reservation.dateEnd,
       payment_status: null,
-      deposit 
-
+      deposit
     });
-    if (!localReservation) {
-      return {
-        success: false,
-        error: 'Failed to generate reservation, please try again',
-      };
-    }
 
     const paymentLink = await createAutocorePaymentLink(autocoreAdapter({ user, reservation, typology, external_ref_id, reservation_id, deposit }));
-    if (!paymentLink) {
-      return {
-        success: false,
-        error: 'Failed to generate payment link, please try again',
-      };
-    }
 
     return {
       success: true,
@@ -87,6 +66,7 @@ export async function generatePaymentLink(
     };
   } catch (error) {
     logError('Error in generate payment link process', error, { user, typology, reservation });
+    //aqui enviar email ....
     return {
       success: false,
       error: 'An unexpected error occurred while generating payment link',

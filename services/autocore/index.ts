@@ -8,7 +8,7 @@ import { generateAuthToken } from '@/lib/auth';
 
 export async function createAutocorePaymentLink(
   payload: AutocorePaymentLinkRequest
-): Promise<string | null> {
+): Promise<string> {
   try {
     const authToken = await generateAuthToken();
 
@@ -36,13 +36,13 @@ export async function createAutocorePaymentLink(
         payload,
       });
 
-      return null;
+       throw new Error('Error creating payment link' )
     }
 
     return data.url;
   } catch (error) {
-    logError('Unexpected error creating autocore payment link', error, { payload });
+    logError('[AUTOCORE] Unexpected error creating autocore payment link', error, { payload });
 
-    return null;
+    throw error
   }
 }

@@ -18,10 +18,10 @@ export async function createLocalReservation(params: CreateReservationParams): P
       params.deposit || 0,
       PaymentStatus.IN_PROCESS,
     ]);
-    return result.affectedRows > 0;
+    return Boolean(result?.affectedRows);
   } catch (error) {
-    logError('Error creating local reservation', error, { externalRefId: params.external_ref_id });
-    return false;
+    logError('[LOCAL] Error creating local reservation', error, { externalRefId: params.external_ref_id });
+    throw error; 
   }
 }
 
@@ -29,9 +29,9 @@ export async function getLocalReservationByExternalRef(externalRefId: string): P
   try {
     const sql = 'SELECT * FROM reservations WHERE external_ref_id = ?';
     const rows = await query<ReservationRow[]>(sql, [externalRefId]);
-    return rows[0] || null;
+    return rows?.[0] || null;
   } catch (error) {
-    logError(`Error getting local reservation by external_ref_id: ${externalRefId}`, error);
+    logError(`[LOCAL] Error getting local reservation by external_ref_id: ${externalRefId}`, error);
     throw error;
   }
 }
@@ -44,9 +44,9 @@ export async function updateLocalPaymentStatusByExternalRef(
   try {
     const sql = 'UPDATE reservations SET payment_status = ? WHERE external_ref_id = ?';
     const result = await query<ResultSetHeader>(sql, [paymentStatus, externalRefId]);
-    return result.affectedRows > 0;
+    return Boolean(result?.affectedRows);
   } catch (error) {
-    logError(`Error updating local payment status for external_ref_id: ${externalRefId}`, error, { paymentStatus });
+    logError(`[LOCAL] Error updating local payment status for external_ref_id: ${externalRefId}`, error, { paymentStatus });
     throw error;
   }
 }

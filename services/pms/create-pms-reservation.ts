@@ -4,7 +4,7 @@ import CONFIG from '@/config';
 import { PmsReservationRequest, PmsReservationApiResponse, PmsReservationResponse } from '@/types/pms';
 import { logError } from '@/lib/logger';
 
-export async function createPMSReservation(payload: PmsReservationRequest): Promise<PmsReservationResponse | null> {
+export async function createPMSReservation(payload: PmsReservationRequest): Promise<PmsReservationResponse> {
   try {
     const response = await fetch(`${CONFIG.PMS_BASE_URL}/clients/reservations`, {
       method: 'POST',
@@ -27,7 +27,7 @@ export async function createPMSReservation(payload: PmsReservationRequest): Prom
     }
     return data.reservation;
   } catch (error) {
-    logError('Error creating PMS reservation', error, { payload });
-    return null;
+    logError('[PMS] Error creating PMS reservation', error, { payload });
+    throw error;
   }
 }
