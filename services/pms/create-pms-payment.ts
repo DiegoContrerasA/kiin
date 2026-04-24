@@ -24,7 +24,7 @@ export async function createPMSPayment(
       isForLodging: true,
     };
 
-    const response = await fetch(`${CONFIG.PMS_BASE_URL}/payments`, {
+    const response = await fetch(`${CONFIG.PMS_BASE_URL}/reservation/reservation/pay`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

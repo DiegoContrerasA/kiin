@@ -33,12 +33,13 @@ export async function POST(request: NextRequest) {
     // Create payment in PMS only when payment status is 'Aplicado'
     if (payment_status === PaymentStatus.APPLIED && reservationId && transaction_id) {
       const data = await createPMSPayment(reservationId, amount, transaction_id);
-      if(!data) {
-        return NextResponse.json(
-          { success: false, message: 'Error creating PMS payment' },
-          { status: 500 }
-        );
-      }
+      console.log(data)
+      // if(!data) {
+      //   return NextResponse.json(
+      //     { success: false, message: 'Error creating PMS payment' },
+      //     { status: 500 }
+      //   );
+      // }
     }
 
     if(payment_status === PaymentStatus.REJECTED || payment_status === PaymentStatus.INVALID_CARD) {
