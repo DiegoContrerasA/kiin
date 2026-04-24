@@ -25,7 +25,7 @@ export const autocoreAdapter = ({user, typology, reservation, external_ref_id, r
       reservation_id: reservation_id,
       external_ref_id: external_ref_id,
       allowed_payment_options: ['credit_card'],
-      temp_webhook_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/webhook/payment`,
+      temp_webhook_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/webhook`,
       redirect: {
         success_url: redirect,
         failure_url: redirect,
