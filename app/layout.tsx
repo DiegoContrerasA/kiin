@@ -67,7 +67,9 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col">
         <header className="flex justify-center p-4">
-          <Image src="/kiin-logo.png" alt="Kiin Logo" width={36} height={36} className="brightness-0" />
+          <a href="https://kiinliving.com/" target="_blank" rel="noopener noreferrer">
+            <Image src="/kiin-logo.png" alt="Kiin Logo" width={36} height={36} className="brightness-0" />
+          </a>
         </header>
         <main className="flex-1 border-y border-border px-5 md:px-8 pt-10 pb-20">
            <ToastContainer position="top-center" theme="colored" />

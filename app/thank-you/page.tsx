@@ -4,6 +4,7 @@ import { currencyFormat, formatDate } from "@/lib/mappers";
 import { getReservationAction } from "@/actions/get-reservation-action";
 import { PaymentStatus } from "@/types/localdb";
 import PaymentStatusDisplay from "@/components/payment-status";
+import { buttonVariants } from "@/components/ui/button";
 
 
 interface ThankYouPageProps {
@@ -71,6 +72,14 @@ const ThankYouPage = async (props: ThankYouPageProps) => {
         <section className="transition-all duration-500">
           <h2 className="text-2xl font-bold pb-2 border-b border-muted-foreground/20 mb-8">Payment Status</h2>
           <PaymentStatusDisplay status={status as PaymentStatus} reservationId={reservationId} />
+          <div className="flex w-full justify-center mt-4">
+            <a href="https://kiinliving.com/" className={buttonVariants({
+            variant: 'default',
+            size: 'xl'
+          })}>
+            Back to website
+          </a>
+          </div>
         </section>
 
         {/* What's Next */}
