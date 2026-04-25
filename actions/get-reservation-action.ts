@@ -13,6 +13,9 @@ interface GetReservationData {
   deposit: number;
   posts: WPPost[];
   reservationId: string;
+  fullName: string;
+  nights: number;
+  roomName: string;
 }
 
 export async function getReservationAction(
@@ -39,6 +42,10 @@ export async function getReservationAction(
     deposit: localReservation?.deposit || 0,
     status: (localReservation?.payment_status as PaymentStatus) || PaymentStatus.IN_PROCESS,
     posts: posts || [],
-    reservationId: localReservation?.external_ref_id || '',
+    reservationId: localReservation?.reservation_id || '',
+    fullName: localReservation.full_name || '',
+    nights: localReservation.nights || 0,
+    roomName: localReservation.room_name || '',
+
   };
 }

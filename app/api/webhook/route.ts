@@ -28,9 +28,9 @@ export async function POST(request: NextRequest) {
 
     logger.info('[WEBHOOK] Payment webhook received', body);
 
-    await getLocalReservationByExternalRef(external_ref_id);
+    const localData = await getLocalReservationByExternalRef(external_ref_id);
 
-    const reservationId = parseId(external_ref_id, 'BK');
+    const reservationId = localData?.reservation_id ?? parseId(external_ref_id, 'BK');
 
     if (payment_status === PaymentStatus.APPLIED && reservationId && transaction_id) {
       createPMSPayment(reservationId, amount, transaction_id);
@@ -43,7 +43,11 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    await updateLocalPaymentStatusByExternalRef(external_ref_id, payment_status);
+    await updateLocalPaymentStatusByExternalRef({
+      externalRefId: external_ref_id,
+      paymentStatus: payment_status,
+      transactionId: transaction_id ?? ''
+    });
 
     return NextResponse.json({ success: true, message: 'Webhook processed' });
   } catch (error) {

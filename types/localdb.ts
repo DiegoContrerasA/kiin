@@ -1,6 +1,4 @@
 import { RowDataPacket } from 'mysql2';
-import { PmsUser, PmsReservation, PmsTypology } from './pms';
-import { AutocorePaymentWebhook } from './autocore';
 
 // ============ Payment Status Enum ============
 export enum PaymentStatus {
@@ -15,12 +13,17 @@ export enum PaymentStatus {
 export interface ReservationRow extends RowDataPacket {
   id: number;
   external_ref_id: string;
-  user: PmsUser
-  typology: PmsTypology
-  reservation: PmsReservation
-  deposit: number
-  payment: AutocorePaymentWebhook | null
-  payment_status: string | null
+  reservation_id: string;
+  start_date: string;
+  end_date: string;
+  deposit: number;
+  payment_status: string;
+  room_name: string;
+  transaction_id: string;
+  nights: number;
+  full_name: string;
+  email: string;
+  phone: string;
   created_at: Date;
   updated_at: Date;
 }
@@ -32,22 +35,12 @@ export interface CreateReservationParams {
   end_date?: string;
   deposit?: number;
   payment_status?: PaymentStatus | null;
+  room_name?: string;
+  transaction_id?: string;
+  nights?: number;
+  full_name?: string;
+  email?: string;
+  phone?: string;
 }
 
-export interface UpdateReservationParams {
-  external_ref_id: string;
-  user?: PmsUser;
-  typology?: PmsTypology;
-  reservation?: PmsReservation;
-  deposit?: object;
-  payment?: AutocorePaymentWebhook;
-  payment_status?: PaymentStatus;
-}
 
-export interface ReservationWithParsedData extends Omit<ReservationRow, 'user' | 'typology' | 'reservation' | 'deposit' | 'payment'> {
-  user?: PmsUser | null;
-  typology?: PmsTypology | null;
-  reservation?: PmsReservation | null;
-  deposit?: object | null;
-  payment?: AutocorePaymentWebhook | null;
-}

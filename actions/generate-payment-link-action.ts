@@ -3,7 +3,6 @@
 import { logError } from '@/lib/logger';
 import { PmsUser, PmsReservation, PmsTypology } from '@/types/pms';
 import { createLocalReservation } from '@/services/localdb';
-//import { createPMSReservation } from '@/services/pms/create-pms-reservation';
 import { createAutocorePaymentLink } from '@/services/autocore';
 import { autocoreAdapter } from '@/adapters/autocore.adapter';
 import { generateId } from '@/lib/id-serializer';
@@ -36,11 +35,12 @@ export async function generatePaymentLink(
     const pmsReservation = await createPMSReservation({
       user: user,
       reservation: reservation,
-      isTest: process.env.NODE_ENV === 'development',
+      isTest: true,
     });
 
-    const external_ref_id = generateId('BK', pmsReservation._id);
-    const reservation_id = generateId('KIIN', pmsReservation._id);
+    const reservation_id = 'test'
+
+    const external_ref_id = generateId('BK', reservation_id);
 
        const { deposit } = calculateTotals({
             withTransfer: reservation.withTransfer,
@@ -54,10 +54,16 @@ export async function generatePaymentLink(
       start_date: reservation.dateStart,
       end_date: reservation.dateEnd,
       payment_status: null,
-      deposit
+      deposit,
+      room_name: typology?.name || '',
+      transaction_id: '',
+      nights: typology?.nights || 0,
+      full_name: `${user.name} ${user.lastName}`,
+      email: user.email,
+      phone: user.phone || ''
     });
 
-    const paymentLink = await createAutocorePaymentLink(autocoreAdapter({ user, reservation, typology, external_ref_id, reservation_id, deposit }));
+    const paymentLink = await createAutocorePaymentLink(autocoreAdapter({ user, reservation, typology, external_ref_id, reservation_id , deposit }));
 
     return {
       success: true,

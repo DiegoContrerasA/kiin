@@ -19,7 +19,7 @@ export default function PaymentStatusDisplay({ status, reservationId }: Props) {
   const uiState = mapStatusToUI(status)
 
   const whatsappUrl = `https://api.whatsapp.com/send?phone=573232230942&text=${encodeURIComponent(
-    `Hola Kiin Living, necesito ayuda con mi reservación. Código: ${parseId(reservationId, 'BK')}`
+    `Hola Kiin Living, necesito ayuda con mi reservación. Código: ${reservationId}`
   )}`
 
   const config = {

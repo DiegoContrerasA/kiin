@@ -7,8 +7,9 @@ export async function createLocalReservation(params: CreateReservationParams): P
   try {
     const sql = `
       INSERT INTO reservations (
-        external_ref_id, reservation_id, start_date, end_date, deposit, payment_status
-      ) VALUES (?, ?, ?, ?, ?, ?)
+        external_ref_id, reservation_id, start_date, end_date, deposit, payment_status,
+        room_name, transaction_id, nights, full_name, email, phone
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
     const result = await query<ResultSetHeader>(sql, [
       params.external_ref_id,
@@ -17,6 +18,12 @@ export async function createLocalReservation(params: CreateReservationParams): P
       params.end_date || '',
       params.deposit || 0,
       PaymentStatus.IN_PROCESS,
+      params.room_name || '',
+      params.transaction_id || '',
+      params.nights || 0,
+      params.full_name || '',
+      params.email || '',
+      params.phone || '',
     ]);
     return Boolean(result?.affectedRows);
   } catch (error) {
@@ -38,15 +45,20 @@ export async function getLocalReservationByExternalRef(externalRefId: string): P
 
 
 export async function updateLocalPaymentStatusByExternalRef(
-  externalRefId: string,
-  paymentStatus: PaymentStatus
+  params: {
+    externalRefId: string;
+    paymentStatus: PaymentStatus;
+    transactionId: string;
+  }
 ): Promise<boolean> {
   try {
-    const sql = 'UPDATE reservations SET payment_status = ? WHERE external_ref_id = ?';
-    const result = await query<ResultSetHeader>(sql, [paymentStatus, externalRefId]);
+    const sql = 'UPDATE reservations SET payment_status = ?, transaction_id = ? WHERE external_ref_id = ?';
+    const { externalRefId, paymentStatus, transactionId } = params;
+    
+    const result = await query<ResultSetHeader>(sql, [paymentStatus, transactionId, externalRefId]);
     return Boolean(result?.affectedRows);
   } catch (error) {
-    logError(`[LOCAL] Error updating local payment status for external_ref_id: ${externalRefId}`, error, { paymentStatus });
+    logError(`[LOCAL] Error updating local payment status for external_ref_id: ${params.externalRefId}`, error, { paymentStatus: params.paymentStatus, transactionId: params.transactionId });
     throw error;
   }
 }

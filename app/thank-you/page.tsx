@@ -14,12 +14,13 @@ interface ThankYouPageProps {
 
 const ThankYouPage = async (props: ThankYouPageProps) => {
   const searchParams = await props.searchParams;
-  const { start_date, end_date, deposit, posts, status, reservationId } = await getReservationAction(searchParams.confirmationNumber);
+  const { start_date, end_date, deposit, posts, status, reservationId, fullName, nights, roomName } = await getReservationAction(searchParams.confirmationNumber);
 
   return (
     <section className="max-w-4xl mx-auto w-full px-6">
       <div className="text-center mb-12">
-        <h1 className="text-3xl md:text-6xl font-light ">Thank you</h1>
+        <h1 className="text-3xl md:text-6xl font-light mb-1">Thank you</h1>
+        <p className="font-black text-xl">{fullName}</p>
         <p className="text-center text-base italic">Your reservation has been successfully confirmed.</p>
       </div>
 
@@ -38,8 +39,9 @@ const ThankYouPage = async (props: ThankYouPageProps) => {
             </div>
             <div className="flex flex-col h-full p-6">
               <div className="mb-4">
-                <span className="text-[10px] uppercase tracking-[0.2em]  font-bold mb-2 block">Kiin Living</span>
-                <p className=" text-xs">Medellín, Colombia</p>
+                <span className="text-xs uppercase tracking-[0.2em]  font-bold block opacity-80">Kiin Living</span>
+                <p className=" text-base my-1 font-bold">{roomName}</p>
+                <p className=" text-[10px] opacity-80">Medellín, Colombia</p>
               </div>
               <div className="space-y-4 mb-2">
                 <div className="flex justify-between items-baseline border-b border-white/20 py-2">
@@ -52,6 +54,12 @@ const ThankYouPage = async (props: ThankYouPageProps) => {
                   <span className="text-xs  uppercase tracking-widest">Check-out</span>
                   <span className="text-sm font-medium">
                     {formatDate(end_date)}
+                  </span>
+                </div>
+                <div className="flex justify-between items-baseline border-b border-white/20 py-2">
+                  <span className="text-xs  uppercase tracking-widest">Nights</span>
+                  <span className="text-sm font-medium">
+                    {nights}
                   </span>
                 </div>
                 <div className="flex justify-between items-baseline border-b border-white/20 py-4">
