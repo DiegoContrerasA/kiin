@@ -19,7 +19,7 @@ const ThankYouPage = async (props: ThankYouPageProps) => {
 
   return (
     <section className="max-w-4xl mx-auto w-full px-6">
-      <div className="text-center mb-24">
+      <div className="text-center mb-12">
         <h1 className="text-3xl md:text-6xl font-light ">Thank you</h1>
         <p className="text-center text-base italic">Your reservation has been successfully confirmed.</p>
       </div>
@@ -28,7 +28,8 @@ const ThankYouPage = async (props: ThankYouPageProps) => {
         {/* Purchase Summary */}
         <section className="transition-all duration-500">
           <h2 className="text-2xl font-bold pb-2 border-b border-muted-foreground/20 mb-8">Confirm and Payment</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 items-start bg-foreground text-white rounded-lg overflow-hidden shadow-sm border border-gray-100">
+          <PaymentStatusDisplay status={status as PaymentStatus} reservationId={reservationId} />
+          <div className="grid grid-cols-1 md:grid-cols-2 items-start bg-foreground text-white rounded-lg overflow-hidden shadow-sm my-4">
             <div className="h-full overflow-hidden">
               <img
                 alt="Apartment Superior Medellín"
@@ -65,20 +66,6 @@ const ThankYouPage = async (props: ThankYouPageProps) => {
                 </p>
               </div>
             </div>
-          </div>
-        </section>
-
-        {/* Payment Status */}
-        <section className="transition-all duration-500">
-          <h2 className="text-2xl font-bold pb-2 border-b border-muted-foreground/20 mb-8">Payment Status</h2>
-          <PaymentStatusDisplay status={status as PaymentStatus} reservationId={reservationId} />
-          <div className="flex w-full justify-center mt-4">
-            <a href="https://kiinliving.com/" className={buttonVariants({
-            variant: 'default',
-            size: 'xl'
-          })}>
-            Back to website
-          </a>
           </div>
         </section>
 
@@ -141,6 +128,14 @@ const ThankYouPage = async (props: ThankYouPageProps) => {
 
       <div className="text-center mt-32">
         <h3 className="text-2xl font-light italic text-muted-foreground/50">See you very soon...</h3>
+      </div>
+      <div className="flex w-full justify-center mt-4">
+        <a href="https://kiinliving.com/" className={buttonVariants({
+          variant: 'default',
+          size: 'xl'
+        })}>
+          Back to website
+        </a>
       </div>
     </section>
   );

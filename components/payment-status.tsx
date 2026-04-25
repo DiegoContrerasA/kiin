@@ -1,5 +1,6 @@
 import { PaymentStatus } from '@/types/localdb'
 import { buttonVariants } from '@/components/ui/button'
+import { parseId } from '@/lib/id-serializer'
 
 interface Props {
   status: PaymentStatus | null
@@ -18,7 +19,7 @@ export default function PaymentStatusDisplay({ status, reservationId }: Props) {
   const uiState = mapStatusToUI(status)
 
   const whatsappUrl = `https://api.whatsapp.com/send?phone=573232230942&text=${encodeURIComponent(
-    `Hola Kiin Living, necesito ayuda con mi reservación. Código: ${reservationId}`
+    `Hola Kiin Living, necesito ayuda con mi reservación. Código: ${parseId(reservationId, 'BK')}`
   )}`
 
   const config = {
