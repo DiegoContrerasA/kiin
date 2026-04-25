@@ -2,7 +2,7 @@
 
 import CONFIG from '@/config';
 
-import { logError } from '@/lib/logger';
+import { logError, logInfo } from '@/lib/logger';
 import { PmsPaymentRequest, PmsPaymentResponse } from '@/types/pms';
 
 export async function createPMSPayment(
@@ -24,7 +24,7 @@ export async function createPMSPayment(
       isForLodging: true,
     };
 
-    const response = await fetch(`${CONFIG.PMS_BASE_URL}/reservation/reservation/pay`, {
+    const response = await fetch(`${CONFIG.PMS_BASE_URL}/reservation/website/pay`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -39,6 +39,12 @@ export async function createPMSPayment(
     }
 
     const data: PmsPaymentResponse = await response.json();
+    
+    logInfo('[PMS] Payment created successfully', { 
+      reservationId, 
+      paymentId: data._id 
+    });
+    
     return data;
   } catch (error) {
     logError('[PMS] Error creating PMS payment', error, { reservationId, amount, transactionId });

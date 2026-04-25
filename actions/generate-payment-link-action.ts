@@ -10,6 +10,7 @@ import { generateId } from '@/lib/id-serializer';
 import { calculateTotals } from '@/lib/mappers';
 import { sendEmail } from '@/services/emails/send-email';
 import paymentFailureTemplate from '@/services/emails/templates/payment-failure-template';
+import { createPMSReservation } from '@/services/pms/create-pms-reservation';
 
 interface GeneratePaymentLinkParams {
   user: PmsUser;
@@ -32,15 +33,11 @@ export async function generatePaymentLink(
 ): Promise<GeneratePaymentLinkResponse | GeneratePaymentLinkError> {
   try {
 
-    // const pmsReservation = await createPMSReservation({
-    //   user: user,
-    //   reservation: reservation,
-    //   isTest: process.env.NODE_ENV === 'development',
-    // });
-
-    const pmsReservation = {
-      _id: 'test',
-    }
+    const pmsReservation = await createPMSReservation({
+      user: user,
+      reservation: reservation,
+      isTest: process.env.NODE_ENV === 'development',
+    });
 
     const external_ref_id = generateId('BK', pmsReservation._id);
     const reservation_id = generateId('KIIN', pmsReservation._id);

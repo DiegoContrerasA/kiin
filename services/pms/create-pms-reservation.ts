@@ -1,8 +1,8 @@
 'use server';
 
 import CONFIG from '@/config';
-import { PmsReservationRequest, PmsReservationApiResponse, PmsReservationResponse } from '@/types/pms';
-import { logError } from '@/lib/logger';
+import { logError, logInfo } from '@/lib/logger';
+import { PmsReservationRequest, PmsReservationResponse, PmsReservationApiResponse } from '@/types/pms';
 
 export async function createPMSReservation(payload: PmsReservationRequest): Promise<PmsReservationResponse> {
   try {
@@ -25,6 +25,11 @@ export async function createPMSReservation(payload: PmsReservationRequest): Prom
     if(!data?.reservation?._id) {
       throw new Error('Reservation not created');
     }
+    
+    logInfo('[PMS] Reservation created successfully', { 
+      reservationId: data.reservation._id,
+    });
+    
     return data.reservation;
   } catch (error) {
     logError('[PMS] Error creating PMS reservation', error, { payload });

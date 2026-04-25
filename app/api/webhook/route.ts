@@ -30,12 +30,8 @@ export async function POST(request: NextRequest) {
 
     await getLocalReservationByExternalRef(external_ref_id);
 
-
-    // Create reservation in PMS - always call to get the real booking ID from PMS
     const reservationId = parseId(external_ref_id, 'BK');
 
-
-    // Create payment in PMS only when payment status is 'Aplicado'
     if (payment_status === PaymentStatus.APPLIED && reservationId && transaction_id) {
       createPMSPayment(reservationId, amount, transaction_id);
     }
