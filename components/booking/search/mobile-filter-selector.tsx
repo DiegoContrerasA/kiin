@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import {
   Drawer,
   DrawerContent,
+  DrawerDescription,
   DrawerTitle,
 } from "@/components/ui/drawer"
 import { format } from "date-fns"
@@ -22,9 +23,19 @@ enum FilterType {
   GUESTS = "GUESTS",
 }
 
-export default function MobileFilterSelector() {
+interface MobileFilterSelectorProps {
+  date: DateRange | undefined
+  setDate: (date: DateRange | undefined) => void
+  adults: number
+  setAdults: (adults: number) => void
+  children: number
+  setChildren: (children: number) => void
+  onSearch: () => void
+  disabled: boolean
+}
 
-  const { date, adults, children, onSearch, disabled, setAdults, setChildren, setDate } = useFilters()
+export default function MobileFilterSelector({ date, setDate, adults, setAdults, children, setChildren, onSearch, disabled }: MobileFilterSelectorProps) {
+
 
   const [currentDrawer, setCurrentDrawer] = useState<FilterType | null>(null)
 
@@ -85,6 +96,7 @@ export default function MobileFilterSelector() {
       </div>
       <Drawer open={currentDrawer === FilterType.DATES} onOpenChange={(open) => setCurrentDrawer(open ? FilterType.DATES : null)}>
         <DrawerContent className="h-[85vh] pb-4">
+          <DrawerDescription className="sr-only">Select your dates</DrawerDescription>
           <DrawerTitle className="sr-only">Filter</DrawerTitle>
           <div className="flex flex-col h-full">
             <div className="flex-1 overflow-y-auto">
@@ -100,6 +112,7 @@ export default function MobileFilterSelector() {
       </Drawer>
       <Drawer open={currentDrawer === FilterType.GUESTS} onOpenChange={(open) => setCurrentDrawer(open ? FilterType.GUESTS : null)}>
         <DrawerContent>
+           <DrawerDescription className="sr-only">Select your guests</DrawerDescription>
           <DrawerTitle className="sr-only">Guest</DrawerTitle>
           <div className="flex flex-col h-full">
             <div className="flex flex-col gap-4 px-4 py-8 flex-1">

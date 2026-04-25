@@ -1,8 +1,12 @@
+'use client'
+
 import { differenceInDays, format, parseISO } from "date-fns"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useCallback, useState } from "react"
 import { DateRange } from "react-day-picker"
 import { toast } from "react-toastify"
+import { sendGTMEvent } from '@next/third-parties/google'
+
 
 export const useFilters = () => {
 
@@ -41,6 +45,18 @@ export const useFilters = () => {
             toast.error("Minimum stay is 7 nights")
             return
         }
+
+        sendGTMEvent({ 
+            event: 'SearchDate',
+            arrivalDate: format(date.from, "MM/dd/yyyy"),
+            departureDate: format(date.to, "MM/dd/yyyy"),
+            ecommerce: {
+                currencyCode: "USD",
+                currency: "USD",
+                impressions: [],
+                items: []
+            }
+        })
 
         const query = `?checkIn=${format(date.from, "yyyy-MM-dd")}&checkOut=${format(date.to, "yyyy-MM-dd")}&adults=${adults}&children=${children}`
         router.push(query, { scroll: true })

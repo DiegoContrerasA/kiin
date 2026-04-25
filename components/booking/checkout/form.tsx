@@ -14,6 +14,8 @@ import { generatePaymentLink } from '@/actions/generate-payment-link-action'
 import { adaptUserSchemaWithPhoneToPmsUser } from '@/adapters/user.adapter'
 import { adaptToPmsReservation } from '@/adapters/reservation.adapter'
 import { PmsTypology } from '@/types/pms'
+import { sendGTMEvent } from '@next/third-parties/google'
+import { format, parseISO } from 'date-fns'
 
 const SummaryForm = ({ selectedRoom }: { selectedRoom: PmsTypology| null }) => {
 
@@ -34,6 +36,28 @@ const SummaryForm = ({ selectedRoom }: { selectedRoom: PmsTypology| null }) => {
             return
         }
 
+        // Send GTM checkout event
+        sendGTMEvent({
+            event: "checkoutLoad",
+            arrivalDate: selectedRoom.startDate ? format(parseISO(selectedRoom.startDate), "MM/dd/yyyy") : "",
+            departureDate: selectedRoom.endDate ? format(parseISO(selectedRoom.endDate), "MM/dd/yyyy") : "",
+            ecommerce: {
+                currency: "USD",
+                checkout: {
+                    products: [
+                        {
+                            item_name: selectedRoom.name,
+                            price: selectedRoom.roomPrice,
+                            nights: selectedRoom.nights,
+                            quantity: 1,
+                            item_list_name: "Aptos"
+                        }
+                    ],
+                    actionField: { step: 1 }
+                }
+            }
+        });
+
         startTransition(async () => {
             const result = await generatePaymentLink({
                 typology: selectedRoom,
@@ -48,6 +72,8 @@ const SummaryForm = ({ selectedRoom }: { selectedRoom: PmsTypology| null }) => {
                     withTransfer: data.withTransfer
                 })
             })
+
+            
 
             if (!result.success) {
                 toast.error(result.error || 'Error creating payment link')

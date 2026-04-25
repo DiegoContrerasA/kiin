@@ -11,6 +11,8 @@ import { useSearchParams } from "next/navigation"
 import { useMemo, useState } from "react"
 import { Lightbox } from "yet-another-react-lightbox";
 import { PmsTypology } from "@/types/pms";
+import { sendGTMEvent } from '@next/third-parties/google'
+import { format, parseISO } from "date-fns"
 
 const RoomCard = ({
     room
@@ -25,6 +27,30 @@ const RoomCard = ({
         params.set('roomId', room._id);
         return `/checkout?${params.toString()}`;
     }, [room._id, searchParams]);
+
+    const handleSelectRoom = () => {
+        const arrivalDate = searchParams.get('checkIn');
+        const departureDate = searchParams.get('checkOut');
+        
+        if (arrivalDate && departureDate) {
+            sendGTMEvent({
+                event: "addToCart",
+                arrivalDate: format(parseISO(arrivalDate), "MM/dd/yyyy"),
+                departureDate: format(parseISO(departureDate), "MM/dd/yyyy"),
+                ecommerce: {
+                    items: [
+                        {
+                            item_name: room.name,
+                            price: room.roomPrice,
+                            nights: room.nights,
+                            quantity: 1,
+                            item_list_name: "Aptos"
+                        }
+                    ]
+                }
+            });
+        }
+    };
 
     const slides = useMemo(() => room.photos.map((photo) => ({
         src: `${CONFIG.IMAGE_CDN_BASE_URL}/${photo}`,
@@ -53,7 +79,11 @@ const RoomCard = ({
                     <p className="text-lg font-bold text-brand">{currencyFormat(room.roomPrice)}USD<span className="text-muted-foreground text-xs"> / {room.nights} nights</span></p>
                 </div>
                 <Separator className="my-4" />
-                <Link href={buildCheckoutUrl} className={buttonVariants({ variant: 'default', className: 'w-full', size: 'xl' })}>
+                <Link 
+                    href={buildCheckoutUrl} 
+                    className={buttonVariants({ variant: 'default', className: 'w-full', size: 'xl' })}
+                    onClick={handleSelectRoom}
+                >
                     SELECT ROOM
                 </Link>
             </div>

@@ -6,7 +6,6 @@ import { PaymentStatus } from "@/types/localdb";
 import PaymentStatusDisplay from "@/components/payment-status";
 import { buttonVariants } from "@/components/ui/button";
 
-
 interface ThankYouPageProps {
   searchParams: Promise<{
     confirmationNumber: string;
